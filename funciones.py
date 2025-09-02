@@ -190,3 +190,21 @@ def darBajaInstructor(listaInstructores, idInstructor):
             instructor[-1] = "Inactivo"                                             #///////VALIDAR QUE EL INSTRUCTOR ESTE ACTIVO///////
             return f"Instructor {instructor[1]} {instructor[2]} dado de baja."
     print("Instructor no encontrado.")
+
+
+# Funcion para logearse, si la contraseña es incorrecta no entrara al menu de administrador
+def log_in():
+    clear()
+    print("\n=== Login ===")
+    intentos = 3
+    while intentos > 0:
+        password = input("Ingrese la contraseña: ")
+        if password == "admin123":
+            print("Login exitoso.")
+            return True
+        else:
+            intentos -= 1
+            clear()
+            print(f"Contraseña incorrecta. Le quedan ", intentos, " intentos")
+    print("Ha agotado los intentos. Volviendo al menú principal.")
+    return False
