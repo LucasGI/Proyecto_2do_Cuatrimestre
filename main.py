@@ -5,18 +5,22 @@ def main():
 
 
 
-    flagSeguir = True
 
 
-    while flagSeguir:
 
-        flagIn = True
-        log_in()
 
-        while flagIn:
+
+    flagIn = True
+    log_in()
+
+    while flagIn:
+
+        flag_seguir = True
+
+        while flag_seguir:
+
 
             op = menuPrincipal()
-
 
             if op == "1":
                 op = menuSocios()
@@ -32,7 +36,7 @@ def main():
                 elif op == "4":
                     mostrarSocios(socios)
                 elif op == "0":
-                    flagIn = False
+                    flag_seguir = False
 
             elif op == "2":
                 op = menuInstructores()
@@ -48,7 +52,7 @@ def main():
                     mostrarInstructores(instructores)
                     input("Presiones una tecla para continuar...")
                 elif op == "0":
-                    flagIn = False
+                    flag_seguir = False
             elif op == "3":
                 op = menuClases()
                 if op == "1":
@@ -63,10 +67,10 @@ def main():
                     mostrarClases(clases)
                     input("Presiones una tecla para continuar...")
                 elif op == "0":
-                    flagIn = False
+                    flag_seguir = False
 
             else:
-                flagSeguir = False
+                flag_seguir = False
                 flagIn = False
                 print("Gracias por usar el programa, saliendo...")
 
