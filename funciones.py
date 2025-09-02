@@ -1,3 +1,5 @@
+from menus import menuEdicionSocios
+
 encabezados_socios = ['IdSocio','Nombre', 'Apellido', 'FechaNac', 'TipoAbono', 'EstadoPago', 'Activo']
 socios=[
     ['1', 'Pepe', 'Juarez', '25/03/1998', 'Efectivo', 'Pago', 'Activo' ],
@@ -208,3 +210,41 @@ def log_in():
             print(f"Contraseña incorrecta. Le quedan ", intentos, " intentos")
     print("Ha agotado los intentos. Volviendo al menú principal.")
     return False
+
+
+def update_socios(listaSocios, idSocio, opcion):
+
+    if opcion == 1:
+        for fila in listaSocios:
+            if fila[0] == idSocio and fila[-1] == "Activo":
+                nombre = input("Ingrese el nuevo nombre: ")
+                fila[1] = nombre
+                return "modificado con exito. "
+
+    elif opcion == 2:
+        for fila in listaSocios:
+            if fila[0] == idSocio and fila[-1] == "Activo":
+                apellido = input("Ingrese el nuevo apellido: ")
+                fila[2]= apellido
+                return "modificado con exito. "
+
+    elif opcion == 3:
+        for fila in listaSocios:
+            if fila[0] == idSocio and fila[-1] == "Activo":
+                abono = input("Tipo de abono (Efectivo/Transferencia): ")
+                fila[4]= abono
+                return "modificado con exito. "
+
+    elif opcion == 4:
+        for fila in listaSocios:
+            if fila[0] == idSocio and fila[-1] == "Activo":
+                estado = input("Estado del pago (Pago/NoPago): ")
+                fila[5] = estado
+                return "modificado con exito. "
+
+    else:
+        print("Opcion no valida.")
+
+
+
+    print("socio no encontrado. ")
