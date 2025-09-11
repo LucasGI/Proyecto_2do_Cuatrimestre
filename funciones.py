@@ -15,9 +15,9 @@ def crearSocio(socios):
     id_socio = str(len(socios)+1)  # esto genera el id del socio
     nombre = input("Ingrese el nombre: ")
     apellido = input("Ingrese el apellido: ")
-    fecha = input("Ingrese la fecha de nacimiento: ")
-    abono = input("Tipo de abono (Efectivo/Transferencia): ")
-    estado = input("Estado del pago (Pago/NoPago): ")
+    fecha = input("Ingrese la fecha de nacimiento de la siguiente forma (dd/mm/aaaa): ")
+    abono = validarOpcion("Tipo de abono (Efectivo/Transferencia): ", ["Efectivo", "Transferencia"])
+    estado = validarOpcion("Estado del pago (Pago/NoPago): ", ["Pago", "NoPago"])
 
     nuevo = {
         "IdSocio": id_socio,
@@ -31,7 +31,6 @@ def crearSocio(socios):
 
     socios.append(nuevo)
     print("Socio agregado con éxito.")
-
 
 def darBajaSocio(listaSocios, idSocio):
     for socio in listaSocios:
@@ -124,8 +123,8 @@ def crearClases(clases):
     print("\n=== Crear Clase ===")
     id_clase = str(len(clases) + 1)
     nombreClase = input("Ingrese el nombre de la clase: ")
-    dia = input("Ingrese el día de la clase: ")
-    hora = input("Ingrese la hora de la clase: ")
+    dia = validarOpcion("Ingrese el día de la clase: ", ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"])
+    hora = validarOpcion("Ingrese la hora de la clase: ", [ "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"])
     idInstructor = input("Ingrese el ID del instructor: ")
 
     nuevo = {
@@ -338,6 +337,10 @@ def editarInstructor(listaInstructores, idInstructor):
         print("Instructor no encontrado o inactivo.")
         input("Presione una tecla para continuar...")
 
+
+#-------------------------------- Otras Funciones --------------------------------------
+
+
 # Funcion para logearse, si la contraseña es incorrecta no entrara al menu de administrador
 def log_in():
     clear()
@@ -357,4 +360,19 @@ def log_in():
 
 
 
+#Funcion Generica para validar respuestas del usuario
+
+def validarOpcion(mensaje, opcionesValidas):
+    """
+    Pide al usuario una entrada y valida que esté en opcionesValidas.
+    No distingue mayúsculas/minúsculas.
+    """
+    opcion = input(mensaje).strip().lower()
+    opcionesValidasLower = [o.lower() for o in opcionesValidas]  # paso todas a minúscula
+
+    while opcion not in opcionesValidasLower:
+        opcion = input(f"Error, intente nuevamente.\n{mensaje}").strip().lower()
+
+    # Devuelvo la opción tal como estaba en opcionesValidas (respeto mayúsculas originales)
+    return opcionesValidas[opcionesValidasLower.index(opcion)]
 

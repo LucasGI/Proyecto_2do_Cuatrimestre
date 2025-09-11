@@ -51,7 +51,7 @@ def main():
                         menuInstructores()
 
                 elif op == "3":
-                    id_instructor = input("Introduce el ID instructore: ")
+                    id_instructor = input("Introduce el ID instructores: ")
                     editarInstructor(instructores, id_instructor)
                 elif op == "4":
                     mostrarInstructores(instructores)
