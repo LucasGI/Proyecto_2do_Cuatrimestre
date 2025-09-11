@@ -1,57 +1,13 @@
-encabezados_socios = ['IdSocio','Nombre', 'Apellido', 'FechaNac', 'TipoAbono', 'EstadoPago', 'Activo']
-socios=[
-    ['1', 'Pepe', 'Juarez', '25/03/1998', 'Efectivo', 'Pago', 'Activo' ],
-    ['2', 'Juan', 'Gonzalez', '12/09/2001', 'Transferencia', 'NoPago', 'Activo' ],
-    ['3', 'Malena', 'Varela', '17/11/1996', 'Efectivo', 'Pago', 'Activo' ],
-    ['4', 'Lucas', 'Rodriguez', '05/05/1985', 'Transferencia', 'NoPago', 'Activo' ],
-    ['5', 'Emanuel', 'Gomez', '11/12/2005', 'Efectivo', 'Pago', 'Activo' ]
-]
 
-encabezados_clases = ['IdClase', 'NombreClase', 'Dia', 'Hora', 'IdInstructor', 'Activo']
-clases=[
-    ['1', 'Musculacion', 'Martes', '18:00', '1', 'Activo'],
-    ['2', 'Zumba', 'Viernes', '19:00', '2', 'Activo'],
-    ['3', 'Spinning', 'Lunes', '20:00', '3', 'Activo'],
-    ['4', 'Funcional', 'Jueves', '13:00', '4', 'Activo'],
-    ['5', 'Pilates', 'Miercoles', '09:00', '5', 'Activo']
-]
+from datos import socios, clases, asistencias, instructores
 
-encabezados_asistencias =  ['IdAsistencia', 'IdSocio', 'Fecha', 'IdClase']
-asistencias=[
-    ['1', '2', '13/09/25', '3'],
-    ['2', '1', '23/05/25', '1'],
-    ['3', '3', '05/12/25', '2'],
-    ['4', '5', '27/11/25', '4'],
-    ['5', '4', '11/03/25', '5']
-]
 
-encabezados_instructores = ['IdInstructor', 'Nombre', 'Apellido', 'FechaNac', 'Activo']
-instructores=[
-    ['1', 'Mateo', 'Perez','25/03/1998', 'Activo'],
-    ['2', 'Joaquin', 'Lopez','12/09/2001', 'Activo'],
-    ['3', 'Nicolas', 'Fernandez', '17/11/1996', 'Activo'],
-    ['4', 'Ana', 'Diaz', '05/05/1985', 'Activo'],
-    ['5', 'Luis', 'Sanchez', '11/12/2005', 'Activo']
-
-]
-
-def menusito():
-    clear()
-    print("\n=== Sistema de gestion Gym")
-    print("1. Añadir usuario")
-    print("2. Eliminar usuario")
-    print("3. Modificar usuario")
-    print("4. Mostrar usuarios")
-    print("5. Salir")
-    op = input("Seleccione una opcion: ")
-
-    if op == "1":
-        crearSocio()
-    
 
 
 def clear():
     print("\n" * 50)
+
+#--------------------- Funciones relacionadas a la entidad Socios ------------------------
 
 
 def crearSocio(socios):
@@ -63,134 +19,324 @@ def crearSocio(socios):
     abono = input("Tipo de abono (Efectivo/Transferencia): ")
     estado = input("Estado del pago (Pago/NoPago): ")
 
-    nuevo = [id_socio,  nombre, apellido, fecha, abono, estado, "Activo"]
+    nuevo = {
+        "IdSocio": id_socio,
+        "Nombre": nombre,
+        "Apellido": apellido,
+        "FechaNac": fecha,
+        "TipoAbono": abono,
+        "EstadoPago": estado,
+        "Activo": "Activo"
+    }
+
     socios.append(nuevo)
-    print("Socio agregado con exito. ")
+    print("Socio agregado con éxito.")
 
 
 def darBajaSocio(listaSocios, idSocio):
     for socio in listaSocios:
-        if socio[0] == str(idSocio):  
-            socio[-1] = "Inactivo"                                             #///////VALIDAR QUE EL SOCIO ESTE ACTIVO///////
-            return f"Socio {socio[1]} {socio[2]} dado de baja."
+        if socio["IdSocio"] == str(idSocio):
+            if socio["Activo"] == "Activo":
+                socio["Activo"] = "Inactivo"
+                return f"Socio {socio['Nombre']} {socio['Apellido']} dado de baja."
+            else:
+                return f"El socio {socio['Nombre']} {socio['Apellido']} ya estaba inactivo."
+    print("Socio no encontrado.")
+
+def darAltaSocio(listaSocios, idSocio):
+    for socio in listaSocios:
+        if socio["IdSocio"] == str(idSocio):
+            if socio["Activo"] == "Inactivo":
+                socio["Activo"] = "Activo"
+                return f"Socio {socio['Nombre']} {socio['Apellido']} dado de alta."
+            else:
+                return f"El socio {socio['Nombre']} {socio['Apellido']} ya estaba activo."
     print("Socio no encontrado.")
 
 
 def mostrarSocios(socios):
-    print(" | ".join([e.center(15) for e in encabezados_socios]))
-    print("-" * (len(encabezados_socios) * 18)) 
-    for i in socios:
-        if i[-1] == "Activo":
-            print(" | ".join([dato.center(15) for dato in i]))
+    clear()
+    encabezados = ["IdSocio", "Nombre", "Apellido", "FechaNac", "TipoAbono", "EstadoPago", "Activo"]
+    print(" | ".join([e.center(15) for e in encabezados]))
+    print("-" * (len(encabezados) * 18))
+
+    for socio in socios:
+        if socio["Activo"] in ["Activo", "Inactivo"]:
+            fila = [
+                socio["IdSocio"],
+                socio["Nombre"],
+                socio["Apellido"],
+                socio["FechaNac"],
+                socio["TipoAbono"],
+                socio["EstadoPago"],
+                socio["Activo"]
+            ]
+            print(" | ".join([dato.center(15) for dato in fila]))
+
+    input("Presione una tecla para continuar.")
 
 def editarSocios(listaSocios, idSocio):
-    
-    for fila in listaSocios:
-        
-        if fila[0] == idSocio and fila[-1] == "Activo":
-            
-            nombre = input("Ingrese el nuevo nombre: ")
-            apellido = input("Ingrese el nuevo apellido: ")
-            
-            abono = input("Tipo de abono (Efectivo/Transferencia): ")
-            estado = input("Estado del pago (Pago/NoPago): ")
+    clear()
+    print("\n=== Editar Socio ===")
+    print("1. Editar Nombre")
+    print("2. Editar Apellido")
+    print("3. Editar Tipo de Abono")
+    print("4. Salir")
+    campo = int(input("Ingrese el campo a modificar: "))
 
-            fila[1], fila[2], fila[4], fila[5] = nombre, apellido, abono, estado
-            
-            return "modificado con exito. "
-    print("socio no encontrado. ")
+    socio_encontrado = False
+
+    for socio in listaSocios:
+        if socio["IdSocio"] == str(idSocio) and socio["Activo"] == "Activo":
+            socio_encontrado = True
+
+            if campo == 1:
+                nombre = input("Ingrese el nuevo nombre: ")
+                socio["Nombre"] = nombre
+                print("Nombre modificado con éxito.")
+
+            elif campo == 2:
+                apellido = input("Ingrese el nuevo apellido: ")
+                socio["Apellido"] = apellido
+                print("Apellido modificado con éxito.")
+
+            elif campo == 3:
+                abono = input("Tipo de abono (Efectivo/Transferencia): ")
+                socio["TipoAbono"] = abono
+                print("Tipo de abono modificado con éxito.")
+
+            elif campo == 4:
+                print("Saliendo de la edición.")
+            else:
+                print("El campo seleccionado no existe.")
+
+            input("Presione una tecla para continuar...")
+            break  # ya encontramos y editamos al socio, salimos del bucle
+
+    if not socio_encontrado:
+        print("Socio no encontrado o inactivo.")
+        input("Presione una tecla para continuar...")
+
+
+#--------------------- Funciones relacionadas a la entidad Clases ------------------------
 
 def crearClases(clases):
     print("\n=== Crear Clase ===")
-    idClase = str(len(clases)+1)  # esto genera el id dde clase
+    id_clase = str(len(clases) + 1)
     nombreClase = input("Ingrese el nombre de la clase: ")
-    dia = input("Ingrese el dia de la clase: ")
+    dia = input("Ingrese el día de la clase: ")
     hora = input("Ingrese la hora de la clase: ")
     idInstructor = input("Ingrese el ID del instructor: ")
 
-    nuevo = [idClase,  nombreClase, dia, hora, idInstructor, "Activo"]
+    nuevo = {
+        "IdClase": id_clase,
+        "NombreClase": nombreClase,
+        "Dia": dia,
+        "Hora": hora,
+        "IdInstructor": idInstructor,
+        "Activo": "Activo"
+    }
+
     clases.append(nuevo)
-    print("Clase agregada con exito. ")
+    print("Clase agregada con éxito.")
 
-def mostrarClases(clases):
-    print(" | ".join([e.center(15) for e in encabezados_clases]))
-    print("-" * (len(encabezados_clases) * 18)) 
-    for i in clases:
-        if i[-1] == "Activo":
-            print(" | ".join([dato.center(15) for dato in i]))
-
-def editarClases(listaClases, idClase):
-    
-    for fila in listaClases:
-        
-        if fila[0] == idClase and fila[-1] == "Activo":
-            
-            nombre = input("Ingrese el nuevo nombre de la clase: ")
-            dia = input("Ingrese el dia de la clase: ")
-            
-            hora = input("Ingrese la hora de la clase: ")
-            idInstructor = input("Ingrese el ID del instructor: ")
-
-            fila[1], fila[2], fila[3], fila[4] = nombre, dia, hora, idInstructor
-            
-            return "Clase modificada con exito. "
-    print("Clase no encontrada. ")
 
 def darBajaClase(listaClases, idClase):
     for clase in listaClases:
-        if clase[0] == str(idClase):  
-            clase[-1] = "Inactivo"                                             #///////VALIDAR QUE LA CLASE ESTE ACTIVA///////
-            return f"Clase {clase[1]} {clase[2]} dada de baja."
+        if clase["IdClase"] == str(idClase):
+            if clase["Activo"] == "Activo":
+                clase["Activo"] = "Inactivo"
+                return f"Clase {clase['NombreClase']} dada de baja."
+            else:
+                return f"La clase {clase['NombreClase']} ya estaba inactiva."
     print("Clase no encontrada.")
+
+
+def darAltaClase(listaClases, idClase):
+    for clase in listaClases:
+        if clase["IdClase"] == str(idClase):
+            if clase["Activo"] == "Inactivo":
+                clase["Activo"] = "Activo"
+                return f"Clase {clase['NombreClase']} dada de alta."
+            else:
+                return f"La clase {clase['NombreClase']} ya estaba activa."
+    print("Clase no encontrada.")
+
+
+def mostrarClases(clases):
+    clear()
+    encabezados = ["IdClase", "NombreClase", "Dia", "Hora", "IdInstructor", "Activo"]
+    print(" | ".join([e.center(15) for e in encabezados]))
+    print("-" * (len(encabezados) * 18))
+
+    for clase in clases:
+        if clase["Activo"] in ["Activo", "Inactivo"]:
+            fila = [
+                clase["IdClase"],
+                clase["NombreClase"],
+                clase["Dia"],
+                clase["Hora"],
+                clase["IdInstructor"],
+                clase["Activo"]
+            ]
+            print(" | ".join([dato.center(15) for dato in fila]))
+
+    input("Presione una tecla para continuar...")
+
+
+def editarClases(listaClases, idClase):
+    clear()
+    print("\n=== Editar Clase ===")
+    print("1. Nombre")
+    print("2. Día")
+    print("3. Hora")
+    print("4. Instructor")
+    print("5. Salir")
+    campo = int(input("Ingrese el campo a modificar: "))
+
+    clase_encontrada = False
+
+    for clase in listaClases:
+        if clase["IdClase"] == str(idClase) and clase["Activo"] == "Activo":
+            clase_encontrada = True
+
+            if campo == 1:
+                nombreClase = input("Ingrese el nuevo nombre de la clase: ")
+                clase["NombreClase"] = nombreClase
+                print("Nombre modificado con éxito.")
+
+            elif campo == 2:
+                dia = input("Ingrese el nuevo día: ")
+                clase["Dia"] = dia
+                print("Día modificado con éxito.")
+
+            elif campo == 3:
+                hora = input("Ingrese la nueva hora: ")
+                clase["Hora"] = hora
+                print("Hora modificada con éxito.")
+
+            elif campo == 4:
+                idInstructor = input("Ingrese el nuevo ID del instructor: ")
+                clase["IdInstructor"] = idInstructor
+                print("Instructor modificado con éxito.")
+
+            elif campo == 5:
+                print("Saliendo de la edición.")
+            else:
+                print("Campo inválido.")
+
+            input("Presione una tecla para continuar...")
+            break
+
+    if not clase_encontrada:
+        print("Clase no encontrada o inactiva.")
+        input("Presione una tecla para continuar...")
+
+
+#--------------------- Funciones relacionadas a la entidad Instructores ------------------------
 
 def crearInstructor(instructores):
     print("\n=== Crear Instructor ===")
-    idInstructor = str(len(instructores)+1)  # esto genera el id del socio
+    id_instructor = str(len(instructores) + 1)
     nombre = input("Ingrese el nombre: ")
     apellido = input("Ingrese el apellido: ")
     fechaNac = input("Ingrese la fecha de nacimiento: ")
 
-    nuevo = [idInstructor,  nombre, apellido, fechaNac, "Activo"]
+    nuevo = {
+        "IdInstructor": id_instructor,
+        "Nombre": nombre,
+        "Apellido": apellido,
+        "FechaNac": fechaNac,
+        "Activo": "Activo"
+    }
+
     instructores.append(nuevo)
-    print("Instructor agregado con exito. ")
+    print("Instructor agregado con éxito.")
+
 
 def darBajaInstructor(listaInstructores, idInstructor):
     for instructor in listaInstructores:
-        if instructor[0] == str(idInstructor):  
-            instructor[-1] = "Inactivo"                                             #///////VALIDAR QUE EL Instructor este activo///////
-            return f"Instructor {instructor[1]} {instructor[2]} dado de baja."
+        if instructor["IdInstructor"] == str(idInstructor):
+            if instructor["Activo"] == "Activo":
+                instructor["Activo"] = "Inactivo"
+                return f"Instructor {instructor['Nombre']} {instructor['Apellido']} dado de baja."
+            else:
+                return f"El instructor {instructor['Nombre']} {instructor['Apellido']} ya estaba inactivo."
     print("Instructor no encontrado.")
+
+
+def darAltaInstructor(listaInstructores, idInstructor):
+    for instructor in listaInstructores:
+        if instructor["IdInstructor"] == str(idInstructor):
+            if instructor["Activo"] == "Inactivo":
+                instructor["Activo"] = "Activo"
+                return f"Instructor {instructor['Nombre']} {instructor['Apellido']} dado de alta."
+            else:
+                return f"El instructor {instructor['Nombre']} {instructor['Apellido']} ya estaba activo."
+    print("Instructor no encontrado.")
+
 
 def mostrarInstructores(instructores):
-    print(" | ".join([e.center(15) for e in encabezados_instructores]))
-    print("-" * (len(encabezados_instructores) * 18)) 
-    for i in instructores:
-        if i[-1] == "Activo":
-            print(" | ".join([dato.center(15) for dato in i]))
+    clear()
+    encabezados = ["IdInstructor", "Nombre", "Apellido", "FechaNac", "Activo"]
+    print(" | ".join([e.center(15) for e in encabezados]))
+    print("-" * (len(encabezados) * 18))
+
+    for instructor in instructores:
+        if instructor["Activo"] in ["Activo", "Inactivo"]:
+            fila = [
+                instructor["IdInstructor"],
+                instructor["Nombre"],
+                instructor["Apellido"],
+                instructor["FechaNac"],
+                instructor["Activo"]
+            ]
+            print(" | ".join([dato.center(15) for dato in fila]))
+
+    input("Presione una tecla para continuar...")
+
 
 def editarInstructor(listaInstructores, idInstructor):
-    
-    for fila in listaInstructores:
-        
-        if fila[0] == idInstructor and fila[-1] == "Activo":
-            
-            nombre = input("Ingrese el nuevo nombre: ")
-            apellido = input("Ingrese el nuevo apellido: ")
-            
-            fechaNac = input("Ingrese fecha de nacimiento: ")
+    clear()
+    print("\n=== Editar Instructor ===")
+    print("1. Nombre")
+    print("2. Apellido")
+    print("3. Fecha de Nacimiento")
+    print("4. Salir")
+    campo = int(input("Ingrese el campo a modificar: "))
 
-            fila[1], fila[2], fila[3] = nombre, apellido, fechaNac
-            
-            return "modificado con exito. "
-    print("Instructor no encontrado. ")
+    instructor_encontrado = False
 
-def darBajaInstructor(listaInstructores, idInstructor):
     for instructor in listaInstructores:
-        if instructor[0] == str(idInstructor):  
-            instructor[-1] = "Inactivo"                                             #///////VALIDAR QUE EL INSTRUCTOR ESTE ACTIVO///////
-            return f"Instructor {instructor[1]} {instructor[2]} dado de baja."
-    print("Instructor no encontrado.")
+        if instructor["IdInstructor"] == str(idInstructor) and instructor["Activo"] == "Activo":
+            instructor_encontrado = True
 
+            if campo == 1:
+                nombre = input("Ingrese el nuevo nombre: ")
+                instructor["Nombre"] = nombre
+                print("Nombre modificado con éxito.")
+
+            elif campo == 2:
+                apellido = input("Ingrese el nuevo apellido: ")
+                instructor["Apellido"] = apellido
+                print("Apellido modificado con éxito.")
+
+            elif campo == 3:
+                fechaNac = input("Ingrese la nueva fecha de nacimiento: ")
+                instructor["FechaNac"] = fechaNac
+                print("Fecha de nacimiento modificada con éxito.")
+
+            elif campo == 4:
+                print("Saliendo de la edición.")
+            else:
+                print("Campo inválido.")
+
+            input("Presione una tecla para continuar...")
+            break
+
+    if not instructor_encontrado:
+        print("Instructor no encontrado o inactivo.")
+        input("Presione una tecla para continuar...")
 
 # Funcion para logearse, si la contraseña es incorrecta no entrara al menu de administrador
 def log_in():
@@ -208,5 +354,7 @@ def log_in():
             print(f"Contraseña incorrecta. Le quedan ", intentos, " intentos")
     print("Ha agotado los intentos. Volviendo al menú principal.")
     return False
+
+
 
 
