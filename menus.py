@@ -66,4 +66,3 @@ def menuAltaBaja():
     op = input("Seleccione una opcion: ")
     return op
 
-

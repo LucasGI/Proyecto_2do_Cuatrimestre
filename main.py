@@ -1,6 +1,7 @@
 from funciones import *
 from menus import *
 
+
 def main():
     flagIn = True
     log_in()
@@ -88,15 +89,6 @@ def main():
                 print("Gracias por usar el programa, saliendo...")
 
 
-
-
-
-
-
-
-
-
 main()
 
-    
-   
+

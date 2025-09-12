@@ -3,13 +3,16 @@ from datos import socios, clases, asistencias, instructores
 
 
 
-
+#Funcion de limpieza de interfaz, Imprime 50 bajadas de linea
 def clear():
     print("\n" * 50)
 
 #--------------------- Funciones relacionadas a la entidad Socios ------------------------
 
-
+"""
+Crear socio recibe por parametro la lista de diccionarios 'socios', luego crea en la funcion un diccionario nuevo para luego 
+hacer un append en la lista de diccionarios 'socios'
+"""
 def crearSocio(socios):
     print("\n=== Crear socio ===")
     id_socio = str(len(socios)+1)  # esto genera el id del socio
@@ -32,6 +35,10 @@ def crearSocio(socios):
     socios.append(nuevo)
     print("Socio agregado con éxito.")
 
+"""
+darBajaSocio recibe por parametros la lista de diccionarios 'socios' y el id del socio a dar de baja (pedido previamente en el main) y cambia 
+el campo [Activo] a "Inactivo"
+"""
 def darBajaSocio(listaSocios, idSocio):
     for socio in listaSocios:
         if socio["IdSocio"] == str(idSocio):
@@ -42,6 +49,9 @@ def darBajaSocio(listaSocios, idSocio):
                 return f"El socio {socio['Nombre']} {socio['Apellido']} ya estaba inactivo."
     print("Socio no encontrado.")
 
+""" darAltaSocio recibe por parametros la lista de diccionarios 'socios' y el id del socio a dar de baja (pedido previamente en el main) y cambia 
+el campo [Activo] a "Activo"
+"""
 def darAltaSocio(listaSocios, idSocio):
     for socio in listaSocios:
         if socio["IdSocio"] == str(idSocio):
@@ -53,6 +63,10 @@ def darAltaSocio(listaSocios, idSocio):
     print("Socio no encontrado.")
 
 
+"""
+mostrarSocios recibe por parametro la lista de diccionarios 'socios' y printea por orden de legajo la lista completa de socios, tanto
+inactivos como activos
+"""
 def mostrarSocios(socios):
     clear()
     encabezados = ["IdSocio", "Nombre", "Apellido", "FechaNac", "TipoAbono", "EstadoPago", "Activo"]
@@ -74,6 +88,10 @@ def mostrarSocios(socios):
 
     input("Presione una tecla para continuar.")
 
+"""
+editarSocios recibe por parametro la lista de diccionarios 'socios' y el id del socio a modificar. luego pregunta que campo del diccionario
+se quiere editar. solo se pueden editar socios en estado 'Activo'
+"""
 def editarSocios(listaSocios, idSocio):
     clear()
     print("\n=== Editar Socio ===")
@@ -109,8 +127,8 @@ def editarSocios(listaSocios, idSocio):
             else:
                 print("El campo seleccionado no existe.")
 
+
             input("Presione una tecla para continuar...")
-            break  # ya encontramos y editamos al socio, salimos del bucle
 
     if not socio_encontrado:
         print("Socio no encontrado o inactivo.")
@@ -118,7 +136,10 @@ def editarSocios(listaSocios, idSocio):
 
 
 #--------------------- Funciones relacionadas a la entidad Clases ------------------------
-
+"""
+craerClases recibe por parametro la lista de diccionarios 'clases', crea en la funcion un diccionario nuevo para luego 
+hacer un append en la lista de diccionarios 'clases'
+"""
 def crearClases(clases):
     print("\n=== Crear Clase ===")
     id_clase = str(len(clases) + 1)
@@ -139,7 +160,10 @@ def crearClases(clases):
     clases.append(nuevo)
     print("Clase agregada con éxito.")
 
-
+"""
+darBajaClase recibe por parametros la lista de diccionarios 'listaClases' y el id de la clase a dar de baja (pedido previamente en el main) y cambia 
+el campo [Activo] a "Inactivo"
+"""
 def darBajaClase(listaClases, idClase):
     for clase in listaClases:
         if clase["IdClase"] == str(idClase):
@@ -150,7 +174,8 @@ def darBajaClase(listaClases, idClase):
                 return f"La clase {clase['NombreClase']} ya estaba inactiva."
     print("Clase no encontrada.")
 
-
+"""darAltaClase recibe por parametros la lista de diccionarios 'listaClases' y el id de la clase a dar de alta (pedido previamente en el main) y cambia 
+el campo [Activo] a "Activo" """
 def darAltaClase(listaClases, idClase):
     for clase in listaClases:
         if clase["IdClase"] == str(idClase):
@@ -161,7 +186,10 @@ def darAltaClase(listaClases, idClase):
                 return f"La clase {clase['NombreClase']} ya estaba activa."
     print("Clase no encontrada.")
 
-
+"""
+mostrarClases recibe por parametro la lista de diccionarios 'clases' y printea por orden de legajo la lista completa de clases, tanto
+inactivos como activos
+"""
 def mostrarClases(clases):
     clear()
     encabezados = ["IdClase", "NombreClase", "Dia", "Hora", "IdInstructor", "Activo"]
@@ -182,7 +210,10 @@ def mostrarClases(clases):
 
     input("Presione una tecla para continuar...")
 
-
+"""
+editarClases recibe por parametro la lista de diccionarios 'clases' y el id de la clase a modificar. luego pregunta que campo del diccionario
+se quiere editar. solo se pueden editar clases en estado 'Activo'
+"""
 def editarClases(listaClases, idClase):
     clear()
     print("\n=== Editar Clase ===")
@@ -233,7 +264,10 @@ def editarClases(listaClases, idClase):
 
 
 #--------------------- Funciones relacionadas a la entidad Instructores ------------------------
-
+"""
+crearInstryctor recibe por parametro la lista de diccionarios 'instructores', crea en la funcion un diccionario nuevo para luego 
+hacer un append en la lista de diccionarios 'instructores'
+"""
 def crearInstructor(instructores):
     print("\n=== Crear Instructor ===")
     id_instructor = str(len(instructores) + 1)
@@ -252,7 +286,10 @@ def crearInstructor(instructores):
     instructores.append(nuevo)
     print("Instructor agregado con éxito.")
 
-
+"""
+darBajaClase recibe por parametros la lista de diccionarios 'listaClases' y el id de la clase a dar de baja (pedido previamente en el main) y cambia 
+el campo [Activo] a "Inactivo"
+"""
 def darBajaInstructor(listaInstructores, idInstructor):
     for instructor in listaInstructores:
         if instructor["IdInstructor"] == str(idInstructor):
@@ -263,7 +300,10 @@ def darBajaInstructor(listaInstructores, idInstructor):
                 return f"El instructor {instructor['Nombre']} {instructor['Apellido']} ya estaba inactivo."
     print("Instructor no encontrado.")
 
-
+"""
+darAltaClase recibe por parametros la lista de diccionarios 'listaClases' y el id de la clase a dar de alta (pedido previamente en el main) y cambia 
+el campo [Activo] a "Inactivo"
+"""
 def darAltaInstructor(listaInstructores, idInstructor):
     for instructor in listaInstructores:
         if instructor["IdInstructor"] == str(idInstructor):
@@ -274,7 +314,10 @@ def darAltaInstructor(listaInstructores, idInstructor):
                 return f"El instructor {instructor['Nombre']} {instructor['Apellido']} ya estaba activo."
     print("Instructor no encontrado.")
 
-
+"""
+mostrarInstructores recibe por parametro la lista de diccionarios 'instructores' y printea por orden de legajo la lista completa de instructores, tanto
+inactivos como activos
+"""
 def mostrarInstructores(instructores):
     clear()
     encabezados = ["IdInstructor", "Nombre", "Apellido", "FechaNac", "Activo"]
@@ -294,7 +337,10 @@ def mostrarInstructores(instructores):
 
     input("Presione una tecla para continuar...")
 
-
+"""
+editarInstructores recibe por parametro la lista de diccionarios 'instructores' y el id del instructor a modificar. luego pregunta que campo del diccionario
+se quiere editar. solo se pueden editar instructores en estado 'Activo'
+"""
 def editarInstructor(listaInstructores, idInstructor):
     clear()
     print("\n=== Editar Instructor ===")
@@ -331,7 +377,7 @@ def editarInstructor(listaInstructores, idInstructor):
                 print("Campo inválido.")
 
             input("Presione una tecla para continuar...")
-            break
+
 
     if not instructor_encontrado:
         print("Instructor no encontrado o inactivo.")
@@ -375,4 +421,3 @@ def validarOpcion(mensaje, opcionesValidas):
 
     # Devuelvo la opción tal como estaba en opcionesValidas (respeto mayúsculas originales)
     return opcionesValidas[opcionesValidasLower.index(opcion)]
-
