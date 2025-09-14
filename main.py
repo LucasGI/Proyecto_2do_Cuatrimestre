@@ -1,4 +1,7 @@
-from funciones import *
+from funcionesClases import *
+from funcionesEstadisticas import *
+from funcionesSocios import *
+from funcionesValidacion import *
 from menus import *
 
 
