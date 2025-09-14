@@ -2,6 +2,8 @@ from funcionesClases import *
 from funcionesEstadisticas import *
 from funcionesSocios import *
 from funcionesValidacion import *
+from funcionesInstructores import *
+from datos import socios, clases, asistencias, instructores
 from menus import *
 
 

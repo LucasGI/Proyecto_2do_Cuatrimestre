@@ -1,4 +1,4 @@
-from funciones import clear 
+from funcionesValidacion import clear 
 
 def menuPrincipal():
     clear()

@@ -1,5 +1,5 @@
 from datos import socios, clases, asistencias, instructores
-from funciones import clear, validarOpcion
+from funcionesValidacion import clear, validarOpcion
 #--------------------- Funciones relacionadas a la entidad Clases ------------------------
 """
 craerClases recibe por parametro la lista de diccionarios 'clases', crea en la funcion un diccionario nuevo para luego 
