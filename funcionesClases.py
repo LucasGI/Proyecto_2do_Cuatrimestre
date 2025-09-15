@@ -1,5 +1,5 @@
 from datos import socios, clases, asistencias, instructores
-from funcionesValidacion import clear, validarOpcion
+from funcionesValidacion import *
 #--------------------- Funciones relacionadas a la entidad Clases ------------------------
 """
 craerClases recibe por parametro la lista de diccionarios 'clases', crea en la funcion un diccionario nuevo para luego 
@@ -9,8 +9,7 @@ def crearClases(clases):
     print("\n=== Crear Clase ===")
     id_clase = str(len(clases) + 1)
     nombreClase = input("Ingrese el nombre de la clase: ")
-    dia = validarOpcion("Ingrese el día de la clase: ", ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"])
-    hora = validarOpcion("Ingrese la hora de la clase: ", [ "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"])
+    dia, hora=esClaseDisponible( clases)
     idInstructor = input("Ingrese el ID del instructor: ")
 
     nuevo = {

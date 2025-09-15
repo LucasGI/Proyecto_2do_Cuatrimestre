@@ -6,7 +6,8 @@ def menuPrincipal():
     print("1. Gestion Socios")
     print("2. Gestion Instructores")
     print("3. Gestion Clases")
-
+    print("4. Gestion Asistencias")
+    print("5. Estadisticas")
     print("0. Salir")
     op = input("Seleccione una opcion: ")
     return op
@@ -62,6 +63,29 @@ def menuAltaBaja():
     print("\n=== Menu Edicion ===")
     print("1. Alta")
     print("2. Baja")
+    print("0. Salir")
+    op = input("Seleccione una opcion: ")
+    return op
+
+
+def menuAsistencias():
+    clear()
+    print("\n=== Menu Asistencias ===")
+    print("1. Registrar Asistencia")
+    print("2. Mostrar Asistencias")
+    print("3. Editar Asistencia")
+    print("4. Anular Asistencia")
+    print("0. Salir")
+    op = input("Seleccione una opcion: ")
+    return op
+
+def menuEstadisticas():
+    clear()
+    print("\n=== Menu Estadisticas ===")
+    print("1. Cantidad de socios por tipo de abono")
+    print("2. Cantidad de asistencias por clase")
+    print("3. Promedio de socios activos e inactivos")
+    print("4. Cantidad de clases por instructor")
     print("0. Salir")
     op = input("Seleccione una opcion: ")
     return op
