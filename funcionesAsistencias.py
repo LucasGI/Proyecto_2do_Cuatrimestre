@@ -3,6 +3,27 @@ from funcionesValidacion import clear, validarOpcion
 
 #--------------------- Funciones relacionadas a la entidad Asistencias ------------------------
 
+
+def crearAsistencias(asistencia):
+    print("\n=== Crear asistencia ===")
+    id_asistencia = str(len(asistencia) + 1)
+    id_socio = input("Ingrese el id del socio: ")
+    id_clase = input("Ingrese el ID de la clase: ")
+    fecha = input("Ingrese la fecha de la clase: ")
+
+    nuevo = {
+        "IdAsistencia": id_asistencia,
+        "IdSocio": id_socio,
+        "IdClase": id_clase,
+        "Fecha": fecha
+    }
+
+    asistencias.append(nuevo)
+    print("Clase agregada con éxito.")
+
+
+
+
 def registrarAsistencia(asistencias, socios, clases):
     print("\n=== Registrar Asistencia ===")
     id_asistencia = str(len(asistencias) + 1)
@@ -85,3 +106,5 @@ def editarAsistencia(asistencias, idAsistencia):
             return
     print("Asistencia no encontrada.")
     input("Presione Enter para continuar...")
+
+

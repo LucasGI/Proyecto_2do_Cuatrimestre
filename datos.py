@@ -152,13 +152,13 @@ asistencias = [
         "IdClase": "5"
     },
     {
-        "IdAsistencia": "10",
+        "IdAsistencia": "11",
         "IdSocio": "2",
         "Fecha": "29/04/25",
         "IdClase": "5"
     },
     {
-        "IdAsistencia": "10",
+        "IdAsistencia": "12",
         "IdSocio": "3",
         "Fecha": "29/04/25",
         "IdClase": "5"

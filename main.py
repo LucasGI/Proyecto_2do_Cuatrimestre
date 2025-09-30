@@ -111,11 +111,11 @@ def main():
                     flag_seguir = False
             elif op == "0":
                 flag_seguir = False
-
-            else:
-                flag_seguir = False
                 flagIn = False
                 print("Gracias por usar el programa, saliendo...")
+
+            else:
+                op = input("Opcion no valida, reingrese: ")
 
 
 main()
