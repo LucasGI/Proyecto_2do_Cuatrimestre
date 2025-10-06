@@ -65,15 +65,26 @@ def esClaseDisponible(clases):
             if clase["Activo"].lower() == "activo" and clase["Dia"].lower() == dia.lower() and clase["Hora"] == hora:
                 conflicto = True
                 print(f" Ya existe una clase activa el {dia} a las {hora}. Elegí otro horario.")
-               
+
 
         if not conflicto:
             print(f" Horario disponible: {dia} a las {hora}")
             return dia.capitalize(), hora
 
             
+def validarSocio(diccionario, id):
+    for socio in diccionario:
+        if id == socio["IdSocio"] and socio["Activo"] == "Activo":
+            return True
+    else:
+        return False
+    
+def validarClase(diccionario, id):
+    for clase in diccionario:
+        if id == clase["IdClase"] and clase["Activo"] == "Activo":
+            return True
+    else:
+        return False
 
 
 
-
-   

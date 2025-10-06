@@ -1,5 +1,5 @@
 from datos import socios, clases, asistencias, instructores
-from funcionesValidacion import clear, validarOpcion
+from funcionesValidacion import clear, validarOpcion, validarSocio
 
 #--------------------- Funciones relacionadas a la entidad Socios ------------------------
 
@@ -87,20 +87,18 @@ editarSocios recibe por parametro la lista de diccionarios 'socios' y el id del 
 se quiere editar. solo se pueden editar socios en estado 'Activo'
 """
 def editarSocios(listaSocios, idSocio):
-    clear()
-    print("\n=== Editar Socio ===")
-    print("1. Editar Nombre")
-    print("2. Editar Apellido")
-    print("3. Editar Tipo de Abono")
-    print("4. Salir")
-    campo = int(input("Ingrese el campo a modificar: "))
-
     socio_encontrado = False
-
     for socio in listaSocios:
-        if socio["IdSocio"] == str(idSocio) and socio["Activo"] == "Activo":
-            socio_encontrado = True
-
+        socio_encontrado = validarSocio(listaSocios, idSocio)
+        if socio_encontrado == True:
+            clear()
+            print("\n=== Editar Socio ===")
+            print("1. Editar Nombre")
+            print("2. Editar Apellido")
+            print("3. Editar Tipo de Abono")
+            print("0. Salir")
+            campo = int(input("Ingrese el campo a modificar: "))
+            
             if campo == 1:
                 nombre = input("Ingrese el nuevo nombre: ")
                 socio["Nombre"] = nombre
@@ -116,7 +114,7 @@ def editarSocios(listaSocios, idSocio):
                 socio["TipoAbono"] = abono
                 print("Tipo de abono modificado con éxito.")
 
-            elif campo == 4:
+            elif campo == 0:
                 print("Saliendo de la edición.")
             else:
                 print("El campo seleccionado no existe.")

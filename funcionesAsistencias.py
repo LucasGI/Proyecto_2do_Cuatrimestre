@@ -1,5 +1,5 @@
 from datos import socios, clases, asistencias, instructores
-from funcionesValidacion import clear, validarOpcion
+from funcionesValidacion import clear, validarOpcion, validarClase, validarSocio
 
 #--------------------- Funciones relacionadas a la entidad Asistencias ------------------------
 
@@ -23,22 +23,19 @@ def crearAsistencias(asistencia):
 
 
 
-
 def registrarAsistencia(asistencias, socios, clases):
     print("\n=== Registrar Asistencia ===")
     id_asistencia = str(len(asistencias) + 1)
     id_socio = input("Ingrese el ID del socio: ")
     id_clase = input("Ingrese el ID de la clase: ")
-
+    
     # Validar que el socio y la clase existan
-    socio_valido = any(socio["IdSocio"] == id_socio and socio["Activo"] == "Activo" for socio in socios)
-    clase_valida = any(clase["IdClase"] == id_clase and clase["Activo"] == "Activo" for clase in clases)
+    socio_valido = validarSocio(socios, id_socio)
+    clase_valida = validarClase(clases, id_clase)
 
     if not socio_valido:
-        
         return "Socio no encontrado o inactivo."
     if not clase_valida:
-        
         return "Clase no encontrada o inactiva."
 
     nuevo = {

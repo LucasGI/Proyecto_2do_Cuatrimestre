@@ -30,25 +30,21 @@ el campo [Activo] a "Inactivo"
 """
 def darBajaClase(listaClases, idClase):
     for clase in listaClases:
-        if clase["IdClase"] == str(idClase):
-            if clase["Activo"] == "Activo":
-                clase["Activo"] = "Inactivo"
-                return f"Clase {clase['NombreClase']} dada de baja."
-            else:
-                return f"La clase {clase['NombreClase']} ya estaba inactiva."
-    print("Clase no encontrada.")
+        clase_validada = validarClase(listaClases, idClase)
+        if clase_validada == True:
+            clase["Activo"] = "Inactivo"
+            return f"Clase {clase['NombreClase']} dada de baja."
+    print("Clase no encontrada o inactiva")
 
 """darAltaClase recibe por parametros la lista de diccionarios 'listaClases' y el id de la clase a dar de alta (pedido previamente en el main) y cambia 
 el campo [Activo] a "Activo" """
 def darAltaClase(listaClases, idClase):
     for clase in listaClases:
-        if clase["IdClase"] == str(idClase):
-            if clase["Activo"] == "Inactivo":
-                clase["Activo"] = "Activo"
-                return f"Clase {clase['NombreClase']} dada de alta."
-            else:
-                return f"La clase {clase['NombreClase']} ya estaba activa."
-    print("Clase no encontrada.")
+        clase_validada = validarClase(listaClases, idClase)
+        if clase_validada == False:
+            clase["Activo"] = "Activo"
+            return f"Clase {clase['NombreClase']} dada de alta."
+    print("Clase no encontrada o activa")
 
 """
 mostrarClases recibe por parametro la lista de diccionarios 'clases' y printea por orden de legajo la lista completa de clases, tanto
@@ -85,7 +81,7 @@ def editarClases(listaClases, idClase):
     print("2. Día")
     print("3. Hora")
     print("4. Instructor")
-    print("5. Salir")
+    print("0. Salir")
     campo = int(input("Ingrese el campo a modificar: "))
 
     clase_encontrada = False
@@ -114,7 +110,7 @@ def editarClases(listaClases, idClase):
                 clase["IdInstructor"] = idInstructor
                 print("Instructor modificado con éxito.")
 
-            elif campo == 5:
+            elif campo == 0:
                 print("Saliendo de la edición.")
             else:
                 print("Campo inválido.")
