@@ -1,5 +1,5 @@
 from datos import socios, clases, asistencias, instructores
-from funcionesValidacion import clear, validarOpcion
+from funcionesValidacion import clear, validarFormatoFecha, validarFecha
 #--------------------- Funciones relacionadas a la entidad Instructores ------------------------
 """
 crearInstryctor recibe por parametro la lista de diccionarios 'instructores', crea en la funcion un diccionario nuevo para luego 
@@ -11,12 +11,14 @@ def crearInstructor(instructores):
     nombre = input("Ingrese el nombre: ")
     apellido = input("Ingrese el apellido: ")
     fechaNac = input("Ingrese la fecha de nacimiento: ")
+    formatoValidado = validarFormatoFecha(fechaNac)
+    fechaValidada = validarFecha(formatoValidado)
 
     nuevo = {
         "IdInstructor": id_instructor,
         "Nombre": nombre,
         "Apellido": apellido,
-        "FechaNac": fechaNac,
+        "FechaNac": fechaValidada,
         "Activo": "Activo"
     }
 

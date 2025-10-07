@@ -1,4 +1,5 @@
-
+import re
+from datetime import datetime
 from datos import socios, clases, asistencias, instructores
 
 
@@ -85,6 +86,28 @@ def validarClase(diccionario, id):
             return True
     else:
         return False
+    
+def validarFormatoFecha(fecha):
+    patron = r'^\d{2}/\d{2}/\d{4}$'
+
+    while True:
+        if re.match(patron, fecha):
+            return fecha
+        else:
+            print('FORMATO INVALIDO')
+            fecha = input("Ingrese la fecha de nacimiento de la siguiente forma (dd/mm/aaaa): ")
+
+
+def validarFecha(fecha):
+    while True:
+        try:
+            datetime.strptime(fecha, "%d/%m/%Y")
+            validarFormatoFecha(fecha)
+            return fecha
+        except ValueError:
+            fecha = input("ERROR \n Ingrese una fecha valida:")
 
 
 
+
+validarFecha("1/10/2005")

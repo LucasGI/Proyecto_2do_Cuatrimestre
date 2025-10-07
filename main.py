@@ -24,7 +24,6 @@ def main():
                     crearSocio(socios)
                 elif op == "2":
                     op = menuAltaBaja()
-
                     if op == "1":
                         id_socio = input("Introduce el ID socio: ")
                         darAltaSocio(socios, id_socio)
