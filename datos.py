@@ -90,81 +90,16 @@ clases = [
     }
 ]
 
+"""
 asistencias = [
     {
         "IdAsistencia": "1",
         "IdSocio": "2",
         "Fecha": "13/09/25",
         "IdClase": "3"
-    },
-    {
-        "IdAsistencia": "2",
-        "IdSocio": "1",
-        "Fecha": "23/05/25",
-        "IdClase": "1"
-    },
-    {
-        "IdAsistencia": "3",
-        "IdSocio": "3",
-        "Fecha": "05/12/25",
-        "IdClase": "2"
-    },
-    {
-        "IdAsistencia": "4",
-        "IdSocio": "5",
-        "Fecha": "27/11/25",
-        "IdClase": "4"
-    },
-    {
-        "IdAsistencia": "5",
-        "IdSocio": "4",
-        "Fecha": "11/03/25",
-        "IdClase": "5"
-    },
-    {
-        "IdAsistencia": "6",
-        "IdSocio": "1",
-        "Fecha": "15/09/25",
-        "IdClase": "2"
-    },
-    {
-        "IdAsistencia": "7",
-        "IdSocio": "3",
-        "Fecha": "08/07/25",
-        "IdClase": "1"
-    },
-    {
-        "IdAsistencia": "8",
-        "IdSocio": "5",
-        "Fecha": "21/08/25",
-        "IdClase": "3"
-    },
-    {
-        "IdAsistencia": "9",
-        "IdSocio": "2",
-        "Fecha": "03/06/25",
-        "IdClase": "4"
-    },
-    {
-        "IdAsistencia": "10",
-        "IdSocio": "4",
-        "Fecha": "29/04/25",
-        "IdClase": "5"
-    },
-    {
-        "IdAsistencia": "11",
-        "IdSocio": "2",
-        "Fecha": "29/04/25",
-        "IdClase": "5"
-    },
-    {
-        "IdAsistencia": "12",
-        "IdSocio": "3",
-        "Fecha": "29/04/25",
-        "IdClase": "5"
     }
 ]
-
+"""
 instructores = [
     {
         "IdInstructor": "1",

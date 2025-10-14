@@ -1,5 +1,5 @@
 from datos import socios, clases, asistencias, instructores
-from funcionesValidacion import clear, validarOpcion, validarSocio, validarFormatoFecha
+from funcionesValidacion import clear, validarOpcion, validarSocio, validarFecha
 
 #--------------------- Funciones relacionadas a la entidad Socios ------------------------
 
@@ -12,8 +12,7 @@ def crearSocio(socios):
     id_socio = str(len(socios)+1)  # esto genera el id del socio
     nombre = input("Ingrese el nombre: ")
     apellido = input("Ingrese el apellido: ")
-    fecha = input("Ingrese la fecha de nacimiento de la siguiente forma (dd/mm/aaaa): ")
-    fechaValidada = validarFormatoFecha(fecha)
+    fechaNac = validarFecha()
     abono = validarOpcion("Tipo de abono (Efectivo/Transferencia): ", ["Efectivo", "Transferencia"])
     estado = validarOpcion("Estado del pago (Pago/NoPago): ", ["Pago", "NoPago"])
 
@@ -21,7 +20,7 @@ def crearSocio(socios):
         "IdSocio": id_socio,
         "Nombre": nombre,
         "Apellido": apellido,
-        "FechaNac": fechaValidada,
+        "FechaNac": fechaNac,
         "TipoAbono": abono,
         "EstadoPago": estado,
         "Activo": "Activo"
