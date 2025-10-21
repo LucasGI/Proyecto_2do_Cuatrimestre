@@ -1,28 +1,42 @@
-from datos import socios, clases, asistencias, instructores
+from datos import socios, clases, instructores
 from funcionesValidacion import *
+import json
 #--------------------- Funciones relacionadas a la entidad Clases ------------------------
 """
 craerClases recibe por parametro la lista de diccionarios 'clases', crea en la funcion un diccionario nuevo para luego 
 hacer un append en la lista de diccionarios 'clases'
 """
-def crearClases(clases):
+def crearClases(archivo):
     print("\n=== Crear Clase ===")
-    id_clase = str(len(clases) + 1)
-    nombreClase = input("Ingrese el nombre de la clase: ")
-    dia, hora=esClaseDisponible( clases)
-    idInstructor = input("Ingrese el ID del instructor: ")
+    try:
+        with open(archivo, 'r', encoding="UTF-8") as datos:
+            clases = json.load(datos)
+        
+        if clases:
+            id_clase = max(clase["IdClase"] for clase in clases) + 1
+        else:
+            id_clase = 1
+    
+        nombreClase = input("Ingrese el nombre de la clase: ")
+        dia, hora=esClaseDisponible(archivo)
+        idInstructor = input("Ingrese el ID del instructor: ")
 
-    nuevo = {
-        "IdClase": id_clase,
-        "NombreClase": nombreClase,
-        "Dia": dia,
-        "Hora": hora,
-        "IdInstructor": idInstructor,
-        "Activo": "Activo"
-    }
+        nuevo = {
+            "IdClase": id_clase,
+            "NombreClase": nombreClase,
+            "Dia": dia,
+            "Hora": hora,
+            "IdInstructor": idInstructor,
+            "Activo": "Activo"
+        }
 
-    clases.append(nuevo)
-    print("Clase agregada con éxito.")
+        clases.append(nuevo)
+        with open(archivo, 'w', encoding="UTF-8") as datos:
+            json.dump(clases, datos, ensure_ascii=False)
+        print("Se agrego la clase con exito")
+    
+    except (FileNotFoundError, OSError) as error:
+        print(f'Error! {error}')
 
 """
 darBajaClase recibe por parametros la lista de diccionarios 'listaClases' y el id de la clase a dar de baja (pedido previamente en el main) y cambia 
@@ -50,25 +64,31 @@ def darAltaClase(listaClases, idClase):
 mostrarClases recibe por parametro la lista de diccionarios 'clases' y printea por orden de legajo la lista completa de clases, tanto
 inactivos como activos
 """
-def mostrarClases(clases):
+def mostrarClases(archivo):
     clear()
-    encabezados = ["IdClase", "NombreClase", "Dia", "Hora", "IdInstructor", "Activo"]
-    print(" | ".join([e.center(15) for e in encabezados]))
-    print("-" * (len(encabezados) * 18))
+    try:
+        with open(archivo, 'r', encoding="UTF-8") as datos:
+            clases = json.load(datos)
+            encabezados = ["IdClase", "NombreClase", "Dia", "Hora", "IdInstructor", "Activo"]
+            print(" | ".join([e.center(15) for e in encabezados]))
+            print("-" * (len(encabezados) * 18))
 
-    for clase in clases:
-        if clase["Activo"] in ["Activo", "Inactivo"]:
-            fila = [
-                clase["IdClase"],
-                clase["NombreClase"],
-                clase["Dia"],
-                clase["Hora"],
-                clase["IdInstructor"],
-                clase["Activo"]
-            ]
-            print(" | ".join([dato.center(15) for dato in fila]))
+            for clase in clases:
+                if clase["Activo"] == "Activo":
+                    fila = [
+                        str(clase["IdClase"]).center(15),
+                        clase["NombreClase"].center(15),
+                        clase["Dia"].center(15),
+                        clase["Hora"].center(15),
+                        str(clase["IdInstructor"]).center(15),
+                        clase["Activo"].center(15)
+                    ]
+                    print(" | ".join(fila))
 
-    input("Presione una tecla para continuar...")
+            input('Presione una tecla para continuar...')
+
+    except (FileNotFoundError, OSError) as error:
+        print(f'Error! {error}')
 
 """
 editarClases recibe por parametro la lista de diccionarios 'clases' y el id de la clase a modificar. luego pregunta que campo del diccionario

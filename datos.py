@@ -90,16 +90,7 @@ clases = [
     }
 ]
 
-"""
-asistencias = [
-    {
-        "IdAsistencia": "1",
-        "IdSocio": "2",
-        "Fecha": "13/09/25",
-        "IdClase": "3"
-    }
-]
-"""
+
 instructores = [
     {
         "IdInstructor": "1",

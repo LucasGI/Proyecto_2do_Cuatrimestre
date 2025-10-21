@@ -4,7 +4,7 @@ from funcionesSocios import *
 from funcionesValidacion import *
 from funcionesInstructores import *
 from funcionesAsistencias import *
-from datos import socios, clases, asistencias, instructores
+from datos import socios, clases, instructores
 from menus import *
 
 
@@ -67,7 +67,7 @@ def main():
             elif op == "3":
                 op = menuClases()
                 if op == "1":
-                    crearClases(clases)
+                    crearClases("archivos/clases.json")
                 elif op == "2":
                     op = menuAltaBaja()
 
@@ -83,13 +83,13 @@ def main():
                     id_clase = input("Introduce el ID clase: ")
                     editarClases(clases, id_clase)
                 elif op == "4":
-                    mostrarClases(clases)
+                    mostrarClases("archivos/clases.json")
             elif op == "5":
                 op = menuEstadisticas()
                 if op == "1":
-                   cantidadSociosPorAbono()
+                    cantidadSociosPorAbono()
                 elif op == "2":
-                   cantidadAsistenciaPorClase()
+                    cantidadAsistenciaPorClase()
                 elif op == "3": 
                     promedioActivosInactivos()
                 elif op == "4": 

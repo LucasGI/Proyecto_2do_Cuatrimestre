@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
-from datos import socios, clases, asistencias, instructores
-
+from datos import socios, clases, instructores
+import json
 
 
 #Funcion de limpieza de interfaz, Imprime 50 bajadas de linea
@@ -48,29 +48,36 @@ def validarOpcion(mensaje, opcionesValidas):
     # Devuelvo la opción tal como estaba en opcionesValidas (respeto mayúsculas originales)
     return opcionesValidas[opcionesValidasLower.index(opcion)]
 
-def esClaseDisponible(clases):
+def esClaseDisponible(archivo):
     """
     Solicita al usuario un día y una hora, y verifica que no haya
     otra clase activa en el mismo horario. Devuelve el día y la hora válidos.
     """
-    while True:
-        dia = validarOpcion("Ingrese el día de la clase: ", ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"])
-        hora = validarOpcion("Ingrese la hora de la clase: ", [
-            "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00",
-            "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"
-        ])
+    try: 
+        with open(archivo, 'r', encoding="UTF-8") as datos:
+            clases = json.load(datos)
 
-        # Validación contra clases activas
-        conflicto = False
-        for clase in clases:
-            if clase["Activo"].lower() == "activo" and clase["Dia"].lower() == dia.lower() and clase["Hora"] == hora:
-                conflicto = True
-                print(f" Ya existe una clase activa el {dia} a las {hora}. Elegí otro horario.")
+        
+        while True:
+            dia = validarOpcion("Ingrese el día de la clase: ", ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"])
+            hora = validarOpcion("Ingrese la hora de la clase: ", [
+                "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00",
+                "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"
+            ])
+
+            # Validación contra clases activas
+            conflicto = False
+            for clase in clases:
+                if clase["Activo"].lower() == "activo" and clase["Dia"].lower() == dia.lower() and clase["Hora"] == hora:
+                    conflicto = True
+                    print(f" Ya existe una clase activa el {dia} a las {hora}. Elegí otro horario.")
 
 
-        if not conflicto:
-            print(f" Horario disponible: {dia} a las {hora}")
-            return dia.capitalize(), hora
+            if not conflicto:
+                print(f" Horario disponible: {dia} a las {hora}")
+                return dia.capitalize(), hora
+    except (FileNotFoundError, OSError) as error:
+        print(f"Error! {error}")
 
             
 def validarSocio(diccionario, id):

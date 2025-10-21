@@ -1,4 +1,4 @@
-from datos import socios, clases, asistencias, instructores
+from datos import socios, clases, instructores
 from funcionesValidacion import clear, validarOpcion, validarSocio, validarFecha
 
 #--------------------- Funciones relacionadas a la entidad Socios ------------------------
