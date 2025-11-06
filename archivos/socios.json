@@ -1,0 +1,11 @@
+[
+    {
+        "IdSocio": 1,
+        "Nombre": "Nicolas",
+        "Apellido": "Varela",
+        "FechaNac": "18/10/2005",
+        "TipoAbono": "Transferencia",
+        "EstadoPago": "Pago",
+        "Activo": "Activo"
+    }
+]

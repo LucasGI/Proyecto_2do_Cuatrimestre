@@ -1,5 +1,6 @@
 from datos import socios, clases, instructores
 from funcionesValidacion import clear, validarOpcion, validarSocio, validarFecha
+import json
 
 #--------------------- Funciones relacionadas a la entidad Socios ------------------------
 
@@ -7,27 +8,41 @@ from funcionesValidacion import clear, validarOpcion, validarSocio, validarFecha
 Crear socio recibe por parametro la lista de diccionarios 'socios', luego crea en la funcion un diccionario nuevo para luego 
 hacer un append en la lista de diccionarios 'socios'
 """
-def crearSocio(socios):
-    print("\n=== Crear socio ===")
-    id_socio = str(len(socios)+1)  # esto genera el id del socio
-    nombre = input("Ingrese el nombre: ")
-    apellido = input("Ingrese el apellido: ")
-    fechaNac = validarFecha()
-    abono = validarOpcion("Tipo de abono (Efectivo/Transferencia): ", ["Efectivo", "Transferencia"])
-    estado = validarOpcion("Estado del pago (Pago/NoPago): ", ["Pago", "NoPago"])
+def crearSocio(archivo):
+    
+    try:
+        print("\n=== Crear socio ===")
+        with open(archivo, 'r', encoding="UTF-8") as datos:
+            socios = json.load(datos)
 
-    nuevo = {
-        "IdSocio": id_socio,
-        "Nombre": nombre,
-        "Apellido": apellido,
-        "FechaNac": fechaNac,
-        "TipoAbono": abono,
-        "EstadoPago": estado,
-        "Activo": "Activo"
-    }
+        if socios:
+            id_socio = max(socio["IdClase"] for socio in socios) + 1
+        else:
+            id_socio = 1
 
-    socios.append(nuevo)
-    print("Socio agregado con éxito.")
+        nombre = input("Ingrese el nombre: ")
+        apellido = input("Ingrese el apellido: ")
+        fechaNac = validarFecha()
+        abono = validarOpcion("Tipo de abono (Efectivo/Transferencia): ", ["Efectivo", "Transferencia"])
+        estado = validarOpcion("Estado del pago (Pago/NoPago): ", ["Pago", "NoPago"])
+
+        nuevo = {
+            "IdSocio": id_socio,
+            "Nombre": nombre,
+            "Apellido": apellido,
+            "FechaNac": fechaNac,
+            "TipoAbono": abono,
+            "EstadoPago": estado,
+            "Activo": "Activo"
+        }
+
+        socios.append(nuevo)
+        with open(archivo, 'w', encoding="UTF-8") as datos:
+            json.dump(socios, datos, ensure_ascii=False)
+    
+    except (FileNotFoundError, OSError) as error:
+        print(f'Error! {error}')
+        input('Presione una tecla para continuar...')
 
 """
 darBajaSocio recibe por parametros la lista de diccionarios 'socios' y el id del socio a dar de baja (pedido previamente en el main) y cambia 
@@ -61,26 +76,33 @@ def darAltaSocio(listaSocios, idSocio):
 mostrarSocios recibe por parametro la lista de diccionarios 'socios' y printea por orden de legajo la lista completa de socios, tanto
 inactivos como activos
 """
-def mostrarSocios(socios):
+def mostrarSocios(archivo):
     clear()
-    encabezados = ["IdSocio", "Nombre", "Apellido", "FechaNac", "TipoAbono", "EstadoPago", "Activo"]
-    print(" | ".join([e.center(15) for e in encabezados]))
-    print("-" * (len(encabezados) * 18))
+    try:
+        with open(archivo, 'r', encoding="UTF-8") as datos:
+            socios = json.load(datos)
 
-    for socio in socios:
-        if socio["Activo"] in ["Activo", "Inactivo"]:
-            fila = [
-                socio["IdSocio"],
-                socio["Nombre"],
-                socio["Apellido"],
-                socio["FechaNac"],
-                socio["TipoAbono"],
-                socio["EstadoPago"],
-                socio["Activo"]
-            ]
-            print(" | ".join([dato.center(15) for dato in fila]))
+            encabezados = ["IdSocio", "Nombre", "Apellido", "FechaNac", "TipoAbono", "EstadoPago", "Activo"]
+            print(" | ".join([e.center(15) for e in encabezados]))
+            print("-" * (len(encabezados) * 18))
 
-    input("Presione una tecla para continuar.")
+            for socio in socios:
+                if socio["Activo"] in ["Activo", "Inactivo"]:
+                    fila = [
+                        socio["IdSocio"],
+                        socio["Nombre"],
+                        socio["Apellido"],
+                        socio["FechaNac"],
+                        socio["TipoAbono"],
+                        socio["EstadoPago"],
+                        socio["Activo"]
+                    ]
+                    print(" | ".join([dato.center(15) for dato in fila]))
+            
+        
+    except (FileNotFoundError, OSError) as error:
+        print(f'Error! {error}')
+        input("Presione una tecla para continuar.")
 
 """
 editarSocios recibe por parametro la lista de diccionarios 'socios' y el id del socio a modificar. luego pregunta que campo del diccionario

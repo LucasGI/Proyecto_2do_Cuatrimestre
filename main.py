@@ -21,7 +21,7 @@ def main():
             if op == "1":
                 op = menuSocios()
                 if op == "1":
-                    crearSocio(socios)
+                    crearSocio("archivos/socios.json")
                 elif op == "2":
                     op = menuAltaBaja()
                     if op == "1":
@@ -70,20 +70,20 @@ def main():
                     crearClases("archivos/clases.json")
                 elif op == "2":
                     op = menuAltaBaja()
-
                     if op == "1":
-                        id_clase = input("Introduce el ID clase: ")
-                        darAltaClase(clases, id_clase)
+                        id_clase = int(input("Introduce el ID clase: "))
+                        darAltaClase("archivos/clases.json", id_clase)
                     elif op == "2":
-                        id_instructor = input("Introduce el ID clase: ")
-                        darBajaClase(clases, id_instructor)
+                        id_instructor = int(input("Introduce el ID clase: "))
+                        darBajaClase("archivos/clases.json", id_instructor)
                     elif op == "0":
                         menuClases()
                 elif op == "3":
-                    id_clase = input("Introduce el ID clase: ")
-                    editarClases(clases, id_clase)
+                    id_clase = int(input("Introduce el ID clase: "))
+                    editarClases("archivos/clases.json", id_clase)
                 elif op == "4":
                     mostrarClases("archivos/clases.json")
+
             elif op == "5":
                 op = menuEstadisticas()
                 if op == "1":
