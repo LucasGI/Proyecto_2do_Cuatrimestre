@@ -1,7 +1,9 @@
 from datos import socios, clases, instructores
 from funcionesValidacion import *
+from menus import *
 import json
 import re 
+
 #--------------------- Funciones relacionadas a la entidad Instructores ------------------------
 """
 crearInstryctor recibe por parametro la lista de diccionarios 'instructores', crea en la funcion un diccionario nuevo para luego 
@@ -146,11 +148,14 @@ def editarInstructor(archivo, idInstructor):
         with open(archivo, 'r', encoding="UTF-8") as datos:
             instructores = json.load(datos)
 
-    
+        if not validarInstructor(instructores, idInstructor):
+            print("Instructor no encontrado o inactivo")
+            input("Presione una tecla para continuar...")
+            return
         
-        instructor_validado = validarInstructor(instructores, idInstructor)
         for instructor in instructores:
-            if instructor_validado:
+            if instructor["IdInstructor"] == idInstructor:
+
                 print("\n=== Editar Instructor ===")
                 print("1. Nombre")
                 print("2. Apellido")
@@ -160,20 +165,32 @@ def editarInstructor(archivo, idInstructor):
                     try:
                         campo = int(input("Ingrese el campo a modificar: "))
                         break
-                    except:
-                        print(f"Error, {error}")
+                    except ValueError:
+                        print("Error, Ingrese una opcion numerica: ")
                 if campo == 1:
-                    nombre = input("Ingrese el nuevo nombre: ")
-                    instructor["Nombre"] = nombre
-                    print("Nombre modificado con éxito.")
+                    while True:
+                        nombre = input("Ingrese el nuevo nombre del instructor: ")
+                        
+                        if re.fullmatch(r"[A-Za-z]+", nombre):
+                            instructor["Nombre"] = nombre
+                            print("Nombre modificado con éxito.")
+                            break
+                        else:
+                            print("Error, el nombre solo debe contener letras.")
 
                 elif campo == 2:
-                    apellido = input("Ingrese el nuevo apellido: ")
-                    instructor["Apellido"] = apellido
-                    print("Apellido modificado con éxito.")
+                    while True:
+                        apellido = input("Ingrese el nuevo apellido del instructor: ")
+                        
+                        if re.fullmatch(r"[A-Za-z]+", apellido):
+                            instructor["Apellido"] = apellido
+                            print("Apellido modificado con éxito.")
+                            break
+                        else:
+                            print("Error, el nombre solo debe contener letras.")
 
                 elif campo == 3:
-                    fechaNac = input("Ingrese la nueva fecha de nacimiento: ")
+                    fechaNac=validarFecha()
                     instructor["FechaNac"] = fechaNac
                     print("Fecha de nacimiento modificada con éxito.")
 
@@ -189,10 +206,54 @@ def editarInstructor(archivo, idInstructor):
                 break
 
 
-        if not instructor_validado:
-            print("Instructor no encontrado o inactivo.")
-            input("Presione una tecla para continuar...")
 
     except (FileNotFoundError, OSError) as error:
         print(f'Error {error}')
         input('Presione una tecla para continuar...')
+
+
+
+def mostrarInstructoresOrdenado(archivo, instructores=None, indice=0):
+    # Si instructores es None, significa que es la primera llamada (leer archivo)
+    if instructores is None:
+        clear()
+        try:
+            with open(archivo, 'r', encoding="UTF-8") as datos:
+                instructores = json.load(datos)
+
+            # Filtrar solo activos y ordenar
+            instructores = [i for i in instructores if i["Activo"] == "Activo"]
+            instructores.sort(key=lambda x: x["Apellido"])
+
+            encabezados = ["IdInstructor", "Nombre", "Apellido", "FechaNac", "Activo"]
+            print(" | ".join([e.center(15) for e in encabezados]))
+            print("-" * (len(encabezados) * 18))
+
+            # Llamada inicial a la recursión
+            mostrarInstructoresOrdenado(archivo, instructores, 0)
+
+            input("\nPresione una tecla para continuar...")
+
+        except (FileNotFoundError, OSError) as error:
+            print(f"Error! {error}")
+            input("Presione una tecla para continuar...")
+
+    else:
+        # Caso base: si ya mostramos todos los instructores, terminamos
+        if indice >= len(instructores):
+            return
+        
+        # Mostrar el instructor actual
+        instructor = instructores[indice]
+        fila = [
+            str(instructor["IdInstructor"]),
+            instructor["Nombre"],
+            instructor["Apellido"],
+            instructor["FechaNac"],
+            instructor["Activo"]
+        ]
+        print(" | ".join([dato.center(15) for dato in fila]))
+        # Llamada recursiva para el siguiente
+        mostrarInstructoresOrdenado(archivo, instructores, indice + 1)
+
+mostrarInstructoresOrdenado("archivos/instructores.json")

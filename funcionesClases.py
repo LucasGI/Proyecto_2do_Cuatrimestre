@@ -1,4 +1,5 @@
 from datos import socios, clases, instructores
+from menus import *
 from funcionesValidacion import *
 import json
 #--------------------- Funciones relacionadas a la entidad Clases ------------------------
@@ -151,70 +152,85 @@ def mostrarClases(archivo):
 
 def editarClases(archivo, idClase):
     """
-    editarClases recibe por parametro la lista de diccionarios 'clases' y el id de la clase a modificar. luego pregunta que campo del diccionario
-    se quiere editar. solo se pueden editar clases en estado 'Activo'
+    editarClases recibe por parámetro el archivo JSON y el id de la clase a modificar.
+    Solo se pueden editar clases en estado 'Activo'.
     """
     clear()
     print("\n=== Editar Clase ===")
-    print("1. Nombre")
-    print("2. Día")
-    print("3. Hora")
-    print("4. Instructor")
-    print("0. Salir")
-    while True:
-        try:
-            campo = int(input("Ingrese el campo a modificar: "))
-            break
-        except ValueError:
-            print("Error, Debe ingresar un entero")
 
     try:
         with open(archivo, 'r', encoding="UTF-8") as datos:
             clases = json.load(datos)
 
-        clase_encontrada = False
+        if not validarClase(clases, idClase):
+            print("Clase no encontrada o inactiva.")
+            input("Presione una tecla para continuar...")
+            return
+
         for clase in clases:
-            if clase["IdClase"] == idClase and clase["Activo"].strip().lower() == "activo":
-                clase_encontrada = True
+            if clase["IdClase"] == idClase:
+                print("\n¿Qué campo desea modificar?")
+                print("1. Nombre")
+                print("2. Día")
+                print("3. Hora")
+                print("4. Instructor")
+                print("0. Salir")
+
+                while True:
+                    try:
+                        campo = int(input("Ingrese el número del campo a modificar: "))
+                        break
+                    except ValueError:
+                        print("Error, Debe ingresar un número entero.")
 
                 if campo == 1:
-                    nombreClase = input("Ingrese el nuevo nombre de la clase: ")
-                    clase["NombreClase"] = nombreClase
-                    print("Nombre modificado con éxito.")
+                    while True:
+                        nombre = input("Ingrese el nuevo nombre de la clase: ")
+                        
+                        if re.fullmatch(r"[A-Za-z]+", nombre):
+                            clase["NombreClase"] = nombre
+                            print("Nombre modificado con éxito.")
+                            break
+                        else:
+                            print("Error, el nombre solo debe contener letras.")
 
                 elif campo == 2:
-                    dia = input("Ingrese el nuevo día: ")
+                    dia = validarOpcion("Ingrese el día de la clase: ", ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"])
                     clase["Dia"] = dia
                     print("Día modificado con éxito.")
 
                 elif campo == 3:
-                    hora = input("Ingrese la nueva hora: ")
+                    hora = validarOpcion("Ingrese la hora de la clase: ", [
+                "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00",
+                "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"])
                     clase["Hora"] = hora
                     print("Hora modificada con éxito.")
 
                 elif campo == 4:
-                    idInstructor = input("Ingrese el nuevo ID del instructor: ")
-                    clase["IdInstructor"] = idInstructor
+                    clase["IdInstructor"] = input("Ingrese el nuevo ID del instructor: ")
                     print("Instructor modificado con éxito.")
 
                 elif campo == 0:
-                    print("Saliendo de la edición.")
+                    print("Saliendo de la edición sin cambios.")
+                    input("Presione una tecla para continuar...")
+                    return
+
                 else:
                     print("Campo inválido.")
+                    input("Presione una tecla para continuar...")
+                    return
 
+                # Guardar los cambios
                 with open(archivo, 'w', encoding="UTF-8") as datos:
-                    json.dump(clases, datos, ensure_ascii=False)
+                    json.dump(clases, datos, ensure_ascii=False, indent=4)
 
+                print("\nCambios guardados con éxito.")
                 input("Presione una tecla para continuar...")
                 break
 
-        if clase_encontrada == False:
-            print("Clase no encontrada o inactiva.")
-            input("Presione una tecla para continuar...")
-        
     except (FileNotFoundError, OSError) as error:
-        print(f'Error {error}')
-        input('Presione una tecla para continuar...')
+        print(f"Error: {error}")
+        input("Presione una tecla para continuar...")
 
 
 def ordenarClasesPorHora(archivo, orden):

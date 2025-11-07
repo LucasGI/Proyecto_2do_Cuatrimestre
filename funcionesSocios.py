@@ -153,32 +153,53 @@ def editarSocios(archivo, idSocio):
         with open(archivo, 'r', encoding="UTF-8") as datos:
             socios = json.load(datos)
         
-        socio_encontrado = False
+        if not validarSocio(socios, idSocio):
+            print('Socio no encontrado o inactivo')
+            input("presione una tecla para continuar...")
+            return
+
         for socio in socios:
-            if socio["IdSocio"] == idSocio and socio["Activo"].strip().lower() == "activo":
-                socio_encontrado = True
+            if socio["IdSocio"] == idSocio:
                 clear()
                 print("\n=== Editar Socio ===")
                 print("1. Editar Nombre")
                 print("2. Editar Apellido")
+                print("4. Editar Fecha de nacimiento")
                 print("3. Editar Tipo de Abono")
                 print("0. Salir")
                 campo = int(input("Ingrese el campo a modificar: "))
                 
                 if campo == 1:
-                    nombre = input("Ingrese el nuevo nombre: ")
-                    socio["Nombre"] = nombre
-                    print("Nombre modificado con éxito.")
+                    while True:
+                        nombre = input("Ingrese el nuevo nombre del socio: ")
+                        
+                        if re.fullmatch(r"[A-Za-z]+", nombre):
+                            socio["Nombre"] = nombre
+                            print("Nombre modificado con éxito.")
+                            break
+                        else:
+                            print("Error, el nombre solo debe contener letras.")
 
                 elif campo == 2:
-                    apellido = input("Ingrese el nuevo apellido: ")
-                    socio["Apellido"] = apellido
-                    print("Apellido modificado con éxito.")
+                    while True:
+                        apellido = input("Ingrese el nuevo nombre del instructor: ")
+                        
+                        if re.fullmatch(r"[A-Za-z]+", apellido):
+                            socio["Apellido"] = apellido
+                            print("Nombre modificado con éxito.")
+                            break
+                        else:
+                            print("Error, el nombre solo debe contener letras.")
 
                 elif campo == 3:
                     abono = input("Tipo de abono (Efectivo/Transferencia): ")
                     socio["TipoAbono"] = abono
                     print("Tipo de abono modificado con éxito.")
+
+                elif campo==4:
+                    fechaNac=validarFecha()
+                    socio["FechaNac"] = fechaNac
+                    print("Fecha de nacimiento modificada con exito")
 
                 elif campo == 0:
                     print("Saliendo de la edición.")
@@ -190,10 +211,6 @@ def editarSocios(archivo, idSocio):
 
                 input("Presione una tecla para continuar...")
                 break
-
-        if socio_encontrado==False:
-            print("Socio no encontrado o inactivo.")
-            input("Presione una tecla para continuar...")
     
     except (FileNotFoundError, OSError) as error:
         print(f'Error {error}')

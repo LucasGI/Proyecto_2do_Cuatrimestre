@@ -3,14 +3,35 @@
         "IdInstructor": 1,
         "Nombre": "Pedro",
         "Apellido": "Gutierrez",
-        "FechaNac": "12/02/2000",
+        "FechaNac": "10/10/2000",
         "Activo": "Inactivo"
     },
     {
         "IdInstructor": 2,
-        "Nombre": "Teresa",
+        "Nombre": "ernesto",
         "Apellido": "Perez",
-        "FechaNac": "18/10/2005",
+        "FechaNac": "10/12/2005",
+        "Activo": "Activo"
+    },
+    {
+        "IdInstructor": 3,
+        "Nombre": "Gustavo",
+        "Apellido": "Messi",
+        "FechaNac": "23/04/1997",
+        "Activo": "Activo"
+    },
+    {
+        "IdInstructor": 4,
+        "Nombre": "Armando",
+        "Apellido": "Flores",
+        "FechaNac": "10/10/1990",
+        "Activo": "Activo"
+    },
+    {
+        "IdInstructor": 5,
+        "Nombre": "Pedro",
+        "Apellido": "Zarate",
+        "FechaNac": "20/05/2008",
         "Activo": "Activo"
     }
 ]

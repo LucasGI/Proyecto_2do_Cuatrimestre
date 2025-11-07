@@ -1,7 +1,7 @@
 [
     {
         "IdClase": 1,
-        "NombreClase": "zumba",
+        "NombreClase": "hola",
         "Dia": "Miercoles",
         "Hora": "18:00",
         "IdInstructor": "2",
@@ -10,7 +10,7 @@
     {
         "IdClase": 2,
         "NombreClase": "Musculacion",
-        "Dia": "Martes",
+        "Dia": "Miercoles",
         "Hora": "13:00",
         "IdInstructor": "4",
         "Activo": "Activo"
@@ -33,7 +33,7 @@
     },
     {
         "IdClase": 5,
-        "NombreClase": "spinning",
+        "NombreClase": "Spinning",
         "Dia": "Jueves",
         "Hora": "13:00",
         "IdInstructor": "3",
