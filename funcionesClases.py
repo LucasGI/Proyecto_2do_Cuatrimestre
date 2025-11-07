@@ -5,21 +5,19 @@ import json
 
 
 
-"""
-craerClases recibe por parametro la lista de diccionarios 'clases', crea en la funcion un diccionario nuevo para luego 
-hacer un append en la lista de diccionarios 'clases'
-"""
+
 def crearClases(archivo):
+    """
+    craerClases recibe por parametro la lista de diccionarios 'clases', crea en la funcion un diccionario nuevo para luego 
+    hacer un append en la lista de diccionarios 'clases'
+    """
     print("\n=== Crear Clase ===")
     try:
         with open(archivo, 'r', encoding="UTF-8") as datos:
             clases = json.load(datos)
         
-        if clases:
-            id_clase = max(clase["IdClase"] for clase in clases) + 1
-        else:
-            id_clase = 1
-    
+        
+        id_clase = len(clases) + 1
         nombreClase = validarOpcion("Ingrese el nombre de la clase: ", ["Musculacion", "Spinning", "Zumba", "Funcional", "Pilates"])
         dia, hora=esClaseDisponible(archivo)
         idInstructor = input("Ingrese el ID del instructor: ")
@@ -46,11 +44,12 @@ def crearClases(archivo):
 
 
 
-"""
-darBajaClase recibe por parametros la lista de diccionarios 'listaClases' y el id de la clase a dar de baja (pedido previamente en el main) y cambia 
-el campo [Activo] a "Inactivo"
-"""
+
 def darBajaClase(archivo, idClase):
+    """
+    darBajaClase recibe por parametros la lista de diccionarios 'listaClases' y el id de la clase a dar de baja (pedido previamente en el main) y cambia 
+    el campo [Activo] a "Inactivo"
+    """
     try:
         with open(archivo, 'r', encoding="UTF-8") as datos:
             clases = json.load(datos)
@@ -82,10 +81,10 @@ def darBajaClase(archivo, idClase):
 
 
 
-"""darAltaClase recibe por parametros la lista de diccionarios 'listaClases' y el id de la clase a dar de alta (pedido previamente en el main) y cambia 
-el campo [Activo] a "Activo" """
-def darAltaClase(archivo, idClase):
 
+def darAltaClase(archivo, idClase):
+    """darAltaClase recibe por parametros la lista de diccionarios 'listaClases' y el id de la clase a dar de alta (pedido previamente en el main) y cambia 
+    el campo [Activo] a "Activo" """
     try:
         with open(archivo, 'r', encoding="UTF-8") as datos:
             clases = json.load(datos)
@@ -116,11 +115,12 @@ def darAltaClase(archivo, idClase):
         input('Presione una tecla para continuar...')
 
 
-"""
-mostrarClases recibe por parametro la lista de diccionarios 'clases' y printea por orden de legajo la lista completa de clases, tanto
-inactivos como activos
-"""
+
 def mostrarClases(archivo):
+    """
+    mostrarClases recibe por parametro la lista de diccionarios 'clases' y printea por orden de legajo la lista completa de clases, tanto
+    inactivos como activos
+    """
     clear()
     try:
         with open(archivo, 'r', encoding="UTF-8") as datos:
@@ -146,11 +146,14 @@ def mostrarClases(archivo):
     except (FileNotFoundError, OSError) as error:
         print(f'Error! {error}')
 
-"""
-editarClases recibe por parametro la lista de diccionarios 'clases' y el id de la clase a modificar. luego pregunta que campo del diccionario
-se quiere editar. solo se pueden editar clases en estado 'Activo'
-"""
+
+
+
 def editarClases(archivo, idClase):
+    """
+    editarClases recibe por parametro la lista de diccionarios 'clases' y el id de la clase a modificar. luego pregunta que campo del diccionario
+    se quiere editar. solo se pueden editar clases en estado 'Activo'
+    """
     clear()
     print("\n=== Editar Clase ===")
     print("1. Nombre")
@@ -158,7 +161,12 @@ def editarClases(archivo, idClase):
     print("3. Hora")
     print("4. Instructor")
     print("0. Salir")
-    campo = int(input("Ingrese el campo a modificar: "))
+    while True:
+        try:
+            campo = int(input("Ingrese el campo a modificar: "))
+            break
+        except ValueError:
+            print("Error, Debe ingresar un entero")
 
     try:
         with open(archivo, 'r', encoding="UTF-8") as datos:
@@ -207,4 +215,37 @@ def editarClases(archivo, idClase):
     except (FileNotFoundError, OSError) as error:
         print(f'Error {error}')
         input('Presione una tecla para continuar...')
+
+
+def ordenarClasesPorHora(archivo, orden):
+    try:
+        with open(archivo, 'r', encoding='UTF-8') as datos:
+            clases = json.load(datos)
+
+        clases.sort(key = lambda h: h["Hora"], reverse=orden)
+
+        print("\n=== Clases Ordenadas Por Horario ===")
+        encabezados = ["IdClase", "NombreClase", "Dia", "Hora", "IdInstructor", "Activo"]
+        print(" | ".join([e.center(15) for e in encabezados]))
+        print("-"*(len(encabezados)*18))
+
+        for clase in clases:
+            if clase["Activo"].strip().lower() == "activo":
+                fila = [
+                    str(clase["IdClase"]).center(15),
+                    clase["NombreClase"].center(15),
+                    clase["Dia"].center(15),
+                    clase[("Hora")].center(15),
+                    str(clase["IdInstructor"]).center(15),
+                    clase["Activo"].center(15)
+                ]
+                print(" | ".join(fila))
+
+        input("Presione una tecla pa continuar... ")
+
+
+    except(FileNotFoundError, OSError) as error:
+        print(f"error al abrir archivo {error}")
+        input("presione una tecla para continuar: ")
+
 

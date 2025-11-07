@@ -34,6 +34,16 @@ def menuClases():
     op = input("Seleccione una opcion: ")
     return op
 
+def menuMostrarClases():
+    clear()
+    print("\n=== Menu Vista de Clases")
+    print("1. Mostrar por orden de ID: ")
+    print("2. Mostrar por orden de horario: ")
+    print("3. Mostrar por orden de horario reversr: ")
+    print("0. Salir")
+    op = input("Seleccione una opcion: ")
+    return op
+    
 def menuInstructores():
     clear()
     print("\n=== Menu Gestion de Instructores")

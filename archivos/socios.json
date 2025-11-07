@@ -1,11 +1,20 @@
 [
     {
         "IdSocio": 1,
-        "Nombre": "Nicolas",
+        "Nombre": "Mateo",
         "Apellido": "Varela",
         "FechaNac": "18/10/2005",
-        "TipoAbono": "Transferencia",
+        "TipoAbono": "Efectivo",
         "EstadoPago": "Pago",
+        "Activo": "Activo"
+    },
+    {
+        "IdSocio": 2,
+        "Nombre": "Lucas",
+        "Apellido": "Iacobellis",
+        "FechaNac": "12/12/2000",
+        "TipoAbono": "Transferencia",
+        "EstadoPago": "NoPago",
         "Activo": "Activo"
     }
 ]

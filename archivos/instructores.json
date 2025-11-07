@@ -1,0 +1,16 @@
+[
+    {
+        "IdInstructor": 1,
+        "Nombre": "Pedro",
+        "Apellido": "Gutierrez",
+        "FechaNac": "12/02/2000",
+        "Activo": "Inactivo"
+    },
+    {
+        "IdInstructor": 2,
+        "Nombre": "Teresa",
+        "Apellido": "Perez",
+        "FechaNac": "18/10/2005",
+        "Activo": "Activo"
+    }
+]

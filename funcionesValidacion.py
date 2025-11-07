@@ -94,7 +94,12 @@ def validarClase(diccionario, id):
     else:
         return False
     
-
+def validarInstructor(diccionario, id):
+    for instructor in diccionario:
+        if id == instructor["IdInstructor"] and instructor["Activo"] == "Activo":
+            return True
+    else:
+        return False
 
 
 def validarFecha():

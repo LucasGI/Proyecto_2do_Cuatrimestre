@@ -25,42 +25,42 @@ def main():
                 elif op == "2":
                     op = menuAltaBaja()
                     if op == "1":
-                        id_socio = input("Introduce el ID socio: ")
-                        darAltaSocio(socios, id_socio)
+                        id_socio = int(input("Introduce el ID socio: "))
+                        darAltaSocio("archivos/socios.json", id_socio)
                     elif op == "2":
-                        id_socio = input("Introduce el ID socio: ")
-                        darBajaSocio(socios, id_socio)
+                        id_socio = int(input("Introduce el ID socio: "))
+                        darBajaSocio("archivos/socios.json", id_socio)
                     elif op == "0":
                         menuSocios()
                 elif op == "3":
-                    id_socio = input("Introduce el ID socio: ")
-                    editarSocios(socios, id_socio)
+                    id_socio = int(input("Introduce el ID socio: "))
+                    editarSocios("archivos/socios.json", id_socio)
                 elif op == "4":
-                    mostrarSocios(socios)
+                    mostrarSocios("archivos/socios.json")
                 elif op == "0":
                     flag_seguir = False
 
             elif op == "2":
                 op = menuInstructores()
                 if op == "1":
-                    crearInstructor(instructores)
+                    crearInstructor("archivos/instructores.json")
                 elif op == "2":
                     op = menuAltaBaja()
 
                     if op == "1":
-                        id_instructor = input("Introduce el ID instructor: ")
-                        darAltaInstructor(instructores, id_instructor)
+                        id_instructor = int(input("Introduce el ID instructor: "))
+                        darAltaInstructor("archivos/instructores.json", id_instructor)
                     elif op == "2":
-                        id_instructor = input("Introduce el ID instructor: ")
-                        darBajaInstructor(instructores, id_instructor)
+                        id_instructor = int(input("Introduce el ID instructor: "))
+                        darBajaInstructor("archivos/instructores.json", id_instructor)
                     elif op == "0":
                         menuInstructores()
 
                 elif op == "3":
-                    id_instructor = input("Introduce el ID instructores: ")
-                    editarInstructor(instructores, id_instructor)
+                    id_instructor = int(input("Introduce el ID instructores: "))
+                    editarInstructor("archivos/instructores.json", id_instructor)
                 elif op == "4":
-                    mostrarInstructores(instructores)
+                    mostrarInstructores("archivos/instructores.json")
                 elif op == "0":
                     flag_seguir = False
 
@@ -82,7 +82,17 @@ def main():
                     id_clase = int(input("Introduce el ID clase: "))
                     editarClases("archivos/clases.json", id_clase)
                 elif op == "4":
-                    mostrarClases("archivos/clases.json")
+                    op = menuMostrarClases()
+                    if op == "1":
+                        mostrarClases("archivos/clases.json")
+                        
+                    elif op == "2":
+                        ordenarClasesPorHora("archivos/clases.json", False)
+                
+                    elif op == "3":
+                        ordenarClasesPorHora("archivos/clases.json", True)
+                    else:
+                        op = input("Opcion no valida, reingrese: ")
 
             elif op == "5":
                 op = menuEstadisticas()
