@@ -33,5 +33,12 @@
         "Apellido": "Zarate",
         "FechaNac": "20/05/2008",
         "Activo": "Activo"
+    },
+    {
+        "IdInstructor": 6,
+        "Nombre": "Manuel",
+        "Apellido": "Zarate",
+        "FechaNac": "20/05/2008",
+        "Activo": "Activo"
     }
 ]

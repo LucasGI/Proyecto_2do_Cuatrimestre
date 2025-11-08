@@ -1,58 +1,128 @@
-from datos import socios, clases, instructores
+from funcionesValidacion import *
+import json
 
+def promedioActivosInactivos(archivoS):
+    clear()
+    try:
+        with open(archivoS, 'r', encoding="UTF-8") as datos:
+            socios = json.load(datos)
 
-def promedioActivosInactivos():
-    activos = sum(1 for socio in socios if socio.get('Activo', '').lower() == 'activo')
-    inactivos = sum(1 for socio in socios if socio.get('Activo', '').lower() != 'activo')
-    total = len(socios)
-    promedioActivos= lambda activos, total: (activos / total * 100) 
-    promedioInactivos= lambda inactivos, total: (inactivos / total * 100)
+        activos = 0
+        inactivos = 0
 
-    print(f"Total de Socios: {total}")
-    print(f"Socios Activos: {promedioActivos(activos, total)}%")
-    print(f"Socios Inactivos: {promedioInactivos(inactivos, total)}%")
-    input("Presione Enter para continuar...")
+        for socio in socios:
+            estado = socio.get('Activo', '').lower()
+            if estado == 'activo':
+                activos += 1
+            else:
+                inactivos += 1
 
+        total = len(socios)
 
-def cantidadSociosPorAbono():
-    efectivo = sum(1 for socio in socios if socio.get('TipoAbono', '').lower() == 'efectivo')
-    transferencia = sum(1 for socio in socios if socio.get('TipoAbono', '').lower() == 'transferencia')
+        if total == 0:
+            print("No hay socios cargados.")
+            return
+
+        promedioActivos= lambda activos, total: (activos / total * 100) 
+        promedioInactivos= lambda inactivos, total: (inactivos / total * 100)
+
+        print("=== Estadísticas de Socios ===\n")
+        print(f"Total de Socios: {total}")
+        print(f"Socios Activos: {activos} ({promedioActivos(activos, total):.2f}%)")
+        print(f"Socios Inactivos: {inactivos} ({promedioInactivos(inactivos, total):.2f}%)")
+
+        input("\nPresione Enter para continuar...")
     
-    print(f"Socios con abono en Efectivo: {efectivo}")
-    print(f"Socios con abono por Transferencia: {transferencia}")
-    input("Presione Enter para continuar...")
+    except (FileNotFoundError, OSError) as error:
+        print(f'Error! {error}')
+        input("Presione una tecla para continuar.")
+    
 
-def cantidadAsistenciaPorClase():
-    clase_asistencia = {}
-    for asistencia in asistencias:
-        id_clase = asistencia["IdClase"]
-        if id_clase in clase_asistencia:
-            clase_asistencia[id_clase] += 1
-        else:
-            clase_asistencia[id_clase] = 1
+def cantidadSociosPorAbono(archivoS):
+    clear()
+    try:
+        with open(archivoS, 'r', encoding="UTF-8") as datos:
+            socios = json.load(datos)
 
-    print("Promedio de asistencias por clase:")
-    for clase in clases:
-        id_clase = clase["IdClase"]
-        nombre_clase = clase["NombreClase"]
-        total_asistencias = clase_asistencia.get(id_clase, 0)
-        print(f"Clase: {nombre_clase} - Total Asistencias: {total_asistencias}")
-        input("Presione Enter para continuar...")
+        efectivo = 0
+        transferencia = 0
 
-def cantidadClasesInstructor():
-    instructor_clases = {}
-    for clase in clases:
-        id_instructor = clase["IdInstructor"]
-        if id_instructor in instructor_clases:
-            instructor_clases[id_instructor] += 1
-        else:
-            instructor_clases[id_instructor] = 1
+        for socio in socios:
+            abono = socio.get('TipoAbono', '').lower()
+            if abono == 'efectivo':
+                efectivo += 1
+            elif abono == 'transferencia':
+                transferencia += 1
 
-    print("Cantidad de clases por instructor:")
-    for instructor in instructores:
-        id_instructor = instructor["IdInstructor"]
-        nombre_instructor = f"{instructor['Nombre']} {instructor['Apellido']}"
-        total_clases = instructor_clases.get(id_instructor, 0)
-        print(f"Instructor: {nombre_instructor} - Total Clases: {total_clases} " )
-    input("Presione Enter para continuar...")
+        print("=== Cantidad de Socios por Tipo de Abono ===\n")
+        print(f"Socios con abono en Efectivo: {efectivo}")
+        print(f"Socios con abono por Transferencia: {transferencia}")
+        print(f"Total de socios: {len(socios)}")
 
+        input("\nPresione Enter para continuar...")
+
+    except (FileNotFoundError, OSError) as error:
+        print(f'Error! {error}')
+        input("Presione una tecla para continuar.")
+    
+
+
+def cantidadClasesInstructor(archivoC, archivoI):
+    try:
+        with open(archivoC, 'r', encoding="UTF-8") as datosC:
+            clases = json.load(datosC)
+
+        with open(archivoI, 'r', encoding="UTF-8") as datosI:
+            instructores = json.load(datosI)
+
+        print("=== Cantidad de clases por instructor ===\n")
+
+        for instructor in instructores:
+            id_instructor = instructor["IdInstructor"]
+            nombre_instructor = f"{instructor['Nombre']} {instructor['Apellido']}"
+            contador = 0
+
+            for clase in clases:
+                if int(clase["IdInstructor"]) == id_instructor:
+                    contador += 1
+
+            print(f"Instructor: {nombre_instructor} - Total de clases: {contador}")
+
+        input("\nPresione Enter para continuar...")
+    
+    except (FileNotFoundError, OSError) as error:
+        print(f'Error! {error}')
+        input("Presione una tecla para continuar.")
+
+def cantidadAsistenciaPorClase(archivoC, archivoA):
+    try:
+        with open(archivoC, 'r', encoding="UTF-8") as datosC:
+            clases = json.load(datosC)
+
+        print("=== Cantidad de asistencias por clase ===\n")
+
+        for clase in clases:
+            id_clase = clase["IdClase"]
+            nombre_clase = clase["NombreClase"]
+            contador = 0
+
+            with open(archivoA, 'r', encoding="UTF-8") as archivo:
+                linea = archivo.readline()
+
+                while linea != "":
+                    partes = linea.strip().split()
+
+                    if len(partes) >= 4:
+                        id_clase_archivo = int(partes[1]) 
+                        if id_clase_archivo == id_clase:
+                            contador += 1
+
+                    linea = archivo.readline()
+
+            print(f"Clase: {nombre_clase} - Total de asistencias: {contador}")
+
+        input("\nPresione Enter para continuar...")
+    
+    except (FileNotFoundError, OSError) as error:
+        print(f'Error! {error}')
+        input("Presione una tecla para continuar.")

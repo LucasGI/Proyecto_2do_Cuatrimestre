@@ -85,6 +85,10 @@ def menuAsistencias():
     print("2. Mostrar Asistencias")
     print("3. Editar Asistencia")
     print("4. Anular Asistencia")
+    print("5. Mostrar clases por socio")
+    print("6. Mostrar socios por clase")
+    print("7. Mostrar asistencias por instructor")
+
     print("0. Salir")
     op = input("Seleccione una opcion: ")
     return op

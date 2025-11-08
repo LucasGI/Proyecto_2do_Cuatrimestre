@@ -1,4 +1,3 @@
-from datos import socios, clases, instructores
 from funcionesValidacion import clear, validarOpcion, validarSocio, validarFecha
 import json
 import re

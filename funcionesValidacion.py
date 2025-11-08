@@ -1,6 +1,5 @@
 import re
 from datetime import datetime
-from datos import socios, clases, instructores
 import json
 
 
@@ -105,7 +104,7 @@ def validarInstructor(diccionario, id):
 def validarFecha():
     patron = r'^\d{2}/\d{2}/\d{4}$'
     while True:
-        fecha = input("Ingrese la fecha de nacimiento de la siguiente forma (dd/mm/aaaa): ")
+        fecha = input("Ingrese la fecha de la siguiente forma (dd/mm/aaaa): ")
 
         if not re.match(patron, fecha):
             print("FORMATO INVALIDO. Use dd/mm/aaaa")

@@ -1,4 +1,3 @@
-from datos import socios, clases, instructores
 from funcionesValidacion import *
 from menus import *
 import json

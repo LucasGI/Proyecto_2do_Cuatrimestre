@@ -4,7 +4,6 @@ from funcionesSocios import *
 from funcionesValidacion import *
 from funcionesInstructores import *
 from funcionesAsistencias import *
-from datos import socios, clases, instructores
 from menus import *
 
 
@@ -97,25 +96,34 @@ def main():
             elif op == "5":
                 op = menuEstadisticas()
                 if op == "1":
-                    cantidadSociosPorAbono()
+                    cantidadSociosPorAbono("archivos/socios.json")
                 elif op == "2":
-                    cantidadAsistenciaPorClase()
+                    cantidadAsistenciaPorClase("archivos/clases.json", "asistencias.txt")
                 elif op == "3": 
-                    promedioActivosInactivos()
+                    promedioActivosInactivos("archivos/socios.json")
                 elif op == "4": 
-                    cantidadClasesInstructor()
+                    cantidadClasesInstructor("archivos/clases.json", "archivos/instructores.json")
             elif op == "4":
                 op = menuAsistencias()
                 if op == "1":
-                    registrarAsistencia(asistencias, socios, clases)
+                    registrarAsistencia("archivos/clases.json", "archivos/socios.json", "asistencias.txt")
                 elif op == "2":
-                    mostrarAsistencias(asistencias, socios, clases)
+                    mostrarAsistencias("asistencias.txt", "archivos/clases.json", "archivos/socios.json")
                 elif op == "3":
                     id_asistencia = input("Introduce el ID de la asistencia a editar: ")
-                    editarAsistencia(asistencias, id_asistencia)
+                    editarAsistencia("asistencias.txt", id_asistencia)
                 elif op == "4":
                     id_asistencia = input("Introduce el ID de la asistencia a anular: ")
-                    anularAsistencia(asistencias, id_asistencia)
+                    anularAsistencia("asistencias.txt")
+                elif op == "5":
+                    id_socio = int(input("Ingrese el ID del socio que quiera mostrar: "))
+                    mostrarClasesPorSocio("archivos/clases.json", "archivos/socios.json", "asistencias.txt", id_socio)
+                elif op == "6":
+                    id_clase = int(input("Ingrese el ID de la clase que quiera mostrar: "))
+                    mostrarSociosPorClase("archivos/clases.json", "archivos/socios.json", "asistencias.txt", id_clase)
+                elif op == "7":
+                    id_instructor = int(input("Ingrese el ID del instructor que quiera mostrar: "))
+                    mostrarAsistenciasPorInstructor("archivos/clases.json", "archivos/socios.json","archivos/instructores.json", "asistencias.txt", id_instructor)
                 elif op == "0":
                     flag_seguir = False
             elif op == "0":
