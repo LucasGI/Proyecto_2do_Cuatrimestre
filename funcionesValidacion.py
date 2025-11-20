@@ -116,3 +116,18 @@ def validarFecha():
         except ValueError:
             print(f"ERROR la fecha {fecha} es invalida")
 
+def validarNombre():
+    while True:
+        nombre = input("Ingrese el nuevo nombre: ")
+        if re.fullmatch(r"[A-Za-z]+", nombre):
+            return nombre
+        else:
+            print("Error, el nombre solo debe contener letras.")
+
+def validarApellido():
+    while True:
+        apellido = input("Ingrese el nuevo apellido: ")
+        if re.fullmatch(r"[A-Za-z]+", apellido):
+            return apellido
+        else:
+            print("Error, el apellido solo debe contener letras.")

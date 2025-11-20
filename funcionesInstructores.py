@@ -17,8 +17,8 @@ def crearInstructor(archivo):
     
 
         id_instructor = len(instructores) + 1
-        nombre = input("Ingrese el nombre del instructor: ")
-        apellido = input("Ingrese el apellido del instructor: ")
+        nombre = validarNombre()
+        apellido=validarApellido()
         fechaNac = validarFecha()
 
         nuevo = {
@@ -167,27 +167,13 @@ def editarInstructor(archivo, idInstructor):
                     except ValueError:
                         print("Error, Ingrese una opcion numerica: ")
                 if campo == 1:
-                    while True:
-                        nombre = input("Ingrese el nuevo nombre del instructor: ")
-                        
-                        if re.fullmatch(r"[A-Za-z]+", nombre):
-                            instructor["Nombre"] = nombre
-                            print("Nombre modificado con éxito.")
-                            break
-                        else:
-                            print("Error, el nombre solo debe contener letras.")
-
+                    nombre = validarNombre()
+                    instructor["Nombre"] = nombre
+                    print("Nombre modificado con éxito.")
                 elif campo == 2:
-                    while True:
-                        apellido = input("Ingrese el nuevo apellido del instructor: ")
-                        
-                        if re.fullmatch(r"[A-Za-z]+", apellido):
-                            instructor["Apellido"] = apellido
-                            print("Apellido modificado con éxito.")
-                            break
-                        else:
-                            print("Error, el nombre solo debe contener letras.")
-
+                    apellido=validarApellido()
+                    instructor["Apellido"] = apellido
+                    print("Apellido modificado con éxito.")
                 elif campo == 3:
                     fechaNac=validarFecha()
                     instructor["FechaNac"] = fechaNac

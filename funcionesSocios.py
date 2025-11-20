@@ -1,4 +1,4 @@
-from funcionesValidacion import clear, validarOpcion, validarSocio, validarFecha
+from funcionesValidacion import clear, validarOpcion, validarSocio, validarFecha, validarApellido, validarNombre
 import json
 import re
 
@@ -16,8 +16,8 @@ def crearSocio(archivo):
             socios = json.load(datos)
 
         id_socio = len(socios) + 1
-        nombre = input("Ingrese el nombre: ")
-        apellido = input("Ingrese el apellido: ")
+        nombre = validarNombre()
+        apellido=validarApellido()
         fechaNac = validarFecha()
         abono = validarOpcion("Tipo de abono (Efectivo/Transferencia): ", ["Efectivo", "Transferencia"])
         estado = validarOpcion("Estado del pago (Pago/NoPago): ", ["Pago", "NoPago"])
@@ -169,26 +169,14 @@ def editarSocios(archivo, idSocio):
                 campo = int(input("Ingrese el campo a modificar: "))
                 
                 if campo == 1:
-                    while True:
-                        nombre = input("Ingrese el nuevo nombre del socio: ")
-                        
-                        if re.fullmatch(r"[A-Za-z]+", nombre):
-                            socio["Nombre"] = nombre
-                            print("Nombre modificado con éxito.")
-                            break
-                        else:
-                            print("Error, el nombre solo debe contener letras.")
+                    nombre = validarNombre()
+                    socio["Nombre"] = nombre
+                    print("Nombre modificado con éxito.")
 
                 elif campo == 2:
-                    while True:
-                        apellido = input("Ingrese el nuevo nombre del instructor: ")
-                        
-                        if re.fullmatch(r"[A-Za-z]+", apellido):
-                            socio["Apellido"] = apellido
-                            print("Nombre modificado con éxito.")
-                            break
-                        else:
-                            print("Error, el nombre solo debe contener letras.")
+                    apellido = validarApellido()
+                    socio["Apellido"] = apellido
+                    print("Apellido modificado con éxito.")
 
                 elif campo == 3:
                     abono = input("Tipo de abono (Efectivo/Transferencia): ")
