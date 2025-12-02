@@ -101,20 +101,18 @@ def validarInstructor(diccionario, id):
         return False
 
 
-def validarFecha():
+def validarFecha(fecha):
+
     patron = r'^\d{2}/\d{2}/\d{4}$'
-    while True:
-        fecha = input("Ingrese la fecha de la siguiente forma (dd/mm/aaaa): ")
-
-        if not re.match(patron, fecha):
-            print("FORMATO INVALIDO. Use dd/mm/aaaa")
-            continue
-
-        try:
-            datetime.strptime(fecha, "%d/%m/%Y")
-            return fecha
-        except ValueError:
-            print(f"ERROR la fecha {fecha} es invalida")
+    
+    if not re.match(patron, fecha):
+        return False
+    
+    try:
+        datetime.strptime(fecha, "%d/%m/%Y")
+        return True
+    except ValueError:
+        return False
 
 def validarNombre():
     while True:

@@ -18,7 +18,13 @@ def crearSocio(archivo):
         id_socio = len(socios) + 1
         nombre = validarNombre()
         apellido=validarApellido()
-        fechaNac = validarFecha()
+        while True:
+            fechaNac = input("Ingrese la fecha de la siguiente forma (dd/mm/aaaa): ")
+            if validarFecha(fechaNac):
+                print("Fecha válida.")
+                break
+            else:
+                 print("FORMATO INVALIDO o fecha inválida. Use dd/mm/aaaa")
         abono = validarOpcion("Tipo de abono (Efectivo/Transferencia): ", ["Efectivo", "Transferencia"])
         estado = validarOpcion("Estado del pago (Pago/NoPago): ", ["Pago", "NoPago"])
 

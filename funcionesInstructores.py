@@ -13,13 +13,17 @@ def crearInstructor(archivo):
     try:
         with open(archivo, 'r', encoding="UTF-8") as datos:
             instructores = json.load(datos)
-        
-    
-
         id_instructor = len(instructores) + 1
         nombre = validarNombre()
         apellido=validarApellido()
-        fechaNac = validarFecha()
+        while True:
+            fechaNac = input("Ingrese la fecha de la siguiente forma (dd/mm/aaaa): ")
+        
+            if validarFecha(fechaNac):
+                print("Fecha válida.")
+                break
+            else:
+                 print("FORMATO INVALIDO o fecha inválida. Use dd/mm/aaaa")
 
         nuevo = {
             "IdInstructor": id_instructor,
