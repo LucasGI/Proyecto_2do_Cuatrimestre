@@ -126,3 +126,68 @@ def cantidadAsistenciaPorClase(archivoC, archivoA):
     except (FileNotFoundError, OSError) as error:
         print(f'Error! {error}')
         input("Presione una tecla para continuar.")
+
+def promedioAsistenciaPorClaseRecursivo(archivoC, archivoA, indice=0, clases=None, asistencias=None):
+    try:
+        if clases is None:
+            with open(archivoC, 'r', encoding="UTF-8") as datosC:
+                clases = json.load(datosC)
+
+            with open(archivoA, 'r', encoding="UTF-8") as datosA:
+                asistencias = datosA.readlines()
+
+            print("=== Promedio de asistencias por clase ===\n")
+        if indice >= len(clases):
+            input("Presione Enter para continuar...")
+            return
+
+        clase = clases[indice]
+        id_clase = clase["IdClase"]
+        nombre_clase = clase["NombreClase"]
+        
+        contador = sum(1 for linea in asistencias if len(linea.strip().split()) >= 4 and int(linea.strip().split()[1]) == id_clase)
+        promedio = (lambda contador, asistencias: contador / len(asistencias) if len(asistencias) > 0 else 0)(contador, asistencias)
+        print(f"Clase: {nombre_clase} - Asistencias: {contador} - Promedio: {promedio:.2f}%")
+       
+        promedioAsistenciaPorClaseRecursivo(archivoC, archivoA, indice + 1, clases, asistencias)
+
+    except (FileNotFoundError, OSError) as error:
+        print(f'Error! {error}')
+        input("Presione una tecla para continuar.")
+    
+
+def cantidadAsistenciasPorSocioRecursivo(archivoS, archivoA, indice=0, socios=None, asistencias=None):
+    """
+    Calcula recursivamente la cantidad de asistencias por cada socio.
+    """
+    try:
+        # Primera llamada: cargar archivos
+        if socios is None:
+            with open(archivoS, 'r', encoding="UTF-8") as datosS:
+                socios = json.load(datosS)
+
+            with open(archivoA, 'r', encoding="UTF-8") as datosA:
+                asistencias = datosA.readlines()
+
+            print("=== Cantidad de asistencias por socio  ===")
+        
+        if indice >= len(socios):
+            input("Presione Enter para continuar...")
+            return
+
+        socio = socios[indice]
+        id_socio = socio["IdSocio"]
+        nombre_socio = f'{socio["Nombre"]} {socio["Apellido"]}'
+        
+        
+        contador = sum(1 for linea in asistencias 
+                      if len(linea.strip().split()) >= 4 and int(linea.strip().split()[3]) == id_socio)
+        
+        print(f"Socio: {nombre_socio} - Total asistencias: {contador}")
+        
+       
+        cantidadAsistenciasPorSocioRecursivo(archivoS, archivoA, indice + 1, socios, asistencias)
+
+    except (FileNotFoundError, OSError) as error:
+        print(f'Error! {error}')
+        input("Presione una tecla para continuar.")
