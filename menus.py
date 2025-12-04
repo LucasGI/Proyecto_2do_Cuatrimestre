@@ -100,6 +100,7 @@ def menuEstadisticas():
     print("2. Cantidad de asistencias por clase")
     print("3. Promedio de socios activos e inactivos")
     print("4. Cantidad de clases por instructor")
+    print("5. Cantidad Asistencias por socio")
     print("0. Salir")
     op = input("Seleccione una opcion: ")
     return op

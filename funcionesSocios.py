@@ -18,14 +18,14 @@ def crearSocio(archivo):
         id_socio = len(socios) + 1
         nombre = validarNombre()
         apellido=validarApellido()
-        gmail= nombre.lower()[0:1] + apellido.lower() + "@gmail.com"
+        gmail= nombre[0:1].upper() + apellido.lower() + "@gmail.com"
         while True:
             fechaNac = input("Ingrese la fecha de la siguiente forma (dd/mm/aaaa): ")
             if validarFecha(fechaNac):
                 print("Fecha válida.")
                 break
             else:
-                 print("FORMATO INVALIDO o fecha inválida. Use dd/mm/aaaa")
+                print("FORMATO INVALIDO o fecha inválida. Use dd/mm/aaaa")
         abono = validarOpcion("Tipo de abono (Efectivo/Transferencia): ", ["Efectivo", "Transferencia"])
         estado = validarOpcion("Estado del pago (Pago/NoPago): ", ["Pago", "NoPago"])
 
@@ -128,8 +128,8 @@ def mostrarSocios(archivo):
         with open(archivo, 'r', encoding="UTF-8") as datos:
             socios = json.load(datos)
 
-            encabezados = ["IdSocio", "Nombre", "Apellido", "Gmail", "FechaNac", "TipoAbono", "EstadoPago", "Activo"]
-            print(" | ".join([e.center(15) for e in encabezados]))
+            encabezados = ["IdSocio", "Nombre", "Apellido", "FechaNac", "TipoAbono", "EstadoPago", "Activo", "Gmail"]
+            print(" | ".join([e.center(14) for e in encabezados]))
             print("-" * (len(encabezados) * 18))
 
             for socio in socios:
@@ -138,13 +138,13 @@ def mostrarSocios(archivo):
                         str(socio["IdSocio"]),
                         socio["Nombre"],
                         socio["Apellido"],
-                        socio["Gmail"],
                         socio["FechaNac"],
                         socio["TipoAbono"],
                         socio["EstadoPago"],
-                        socio["Activo"]
+                        socio["Activo"],
+                        socio["Gmail"]
                     ]
-                    print(" | ".join([dato.center(15) for dato in fila]))
+                    print(" | ".join([dato.center(14) for dato in fila]))
             input("Presione una tecla para continuar...")
         
     except (FileNotFoundError, OSError) as error:

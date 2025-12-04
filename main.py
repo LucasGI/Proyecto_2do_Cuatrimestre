@@ -96,13 +96,20 @@ def main():
             elif op == "5":
                 op = menuEstadisticas()
                 if op == "1":
-                    cantidadSociosPorAbono("archivos/socios.json")
+                    clear()
+                    cantidadSociosPorAbonoRecursivo("archivos/socios.json")
                 elif op == "2":
+                    clear()
                     cantidadAsistenciaPorClase("archivos/clases.json", "asistencias.txt")
                 elif op == "3": 
-                    promedioActivosInactivos("archivos/socios.json")
+                    clear()
+                    porcentajeActivosInactivos("archivos/socios.json")
                 elif op == "4": 
+                    clear()
                     cantidadClasesInstructor("archivos/clases.json", "archivos/instructores.json")
+                elif op == "5":
+                    clear()
+                    cantidadAsistenciasPorSocioRecursivo("archivos/socios.json", "asistencias.txt")
             elif op == "4":
                 op = menuAsistencias()
                 if op == "1":

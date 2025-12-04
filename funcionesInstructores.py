@@ -244,5 +244,3 @@ def mostrarInstructoresOrdenado(archivo, instructores=None, indice=0):
         print(" | ".join([dato.center(15) for dato in fila]))
         # Llamada recursiva para el siguiente
         mostrarInstructoresOrdenado(archivo, instructores, indice + 1)
-
-mostrarInstructoresOrdenado("archivos/instructores.json")

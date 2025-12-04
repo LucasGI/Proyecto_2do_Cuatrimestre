@@ -22,9 +22,13 @@ def mostrarClasesPorSocio(archivoC, archivoS, archivoA, id_socio):
 
         if not socio_encontrado:
             print("Socio no encontrado o inactivo.")
+            input("Presione Enter para continuar...")
             return
 
-        print(f"\n=== Asistencias del socio {socio_encontrado['Nombre']} {socio_encontrado['Apellido']} ===\n")
+        print(f"\n==================== Asistencias del socio {socio_encontrado['Nombre']} {socio_encontrado['Apellido']} =====================\n")
+        encabezados = ["Clase", "Dia", "Fecha asistencia"]
+        print(" | " .join([e.center(25) for e in encabezados]))
+        print("-" * len(encabezados) * 27)
 
         with open(archivoA, 'r', encoding="UTF-8") as datos:
             lineas = datos.readline()
@@ -41,7 +45,12 @@ def mostrarClasesPorSocio(archivoC, archivoS, archivoA, id_socio):
                     if id_socio_archivo == id_socio:
                         for c in clases:
                             if c["IdClase"] == id_clase:
-                                print(f"- Clase: {c['NombreClase']} | Día: {c['Dia']} | Fecha asistencia: {fecha}")
+                                fila = [
+                                    c["NombreClase"],
+                                    c["Dia"],
+                                    fecha
+                                ]
+                                print(" | ".join([dato.center(25) for dato in fila]))
                                 asistencias_encontradas = True
                                 break
                 lineas = datos.readline()
@@ -55,8 +64,6 @@ def mostrarClasesPorSocio(archivoC, archivoS, archivoA, id_socio):
     except (FileNotFoundError, OSError) as error:
         print(f'Error! {error}')
         input("Presione una tecla para continuar.")
-
-
 
 def mostrarSociosPorClase(archivoC, archivoS, archivoA, id_clase):
     clear()
@@ -76,9 +83,13 @@ def mostrarSociosPorClase(archivoC, archivoS, archivoA, id_clase):
 
         if not clase_encontrada:
             print("No se encontró la clase con ese ID.")
+            input("Presione Enter para continuar...")
             return
 
         print(f"\n=== Socios que asistieron a la clase '{clase_encontrada['NombreClase']}' ({clase_encontrada['Dia']} {clase_encontrada['Hora']}) ===\n")
+        encabezados = ["Socio", "Fecha"]
+        print(" | " .join([e.center(25) for e in encabezados]))
+        print("-" * len(encabezados) * 27)
 
         with open(archivoA, 'r', encoding="UTF-8") as datosA:
             linea = datosA.readline()
@@ -94,7 +105,11 @@ def mostrarSociosPorClase(archivoC, archivoS, archivoA, id_clase):
                     if id_clase_archivo == id_clase:
                         for socio in socios:
                             if socio["IdSocio"] == id_socio:
-                                print(f"- {socio['Nombre']} {socio['Apellido']} | Fecha: {fecha}")
+                                fila = [
+                                    f"{socio["Nombre"]} {socio["Apellido"]}",
+                                    str(fecha)
+                                ]
+                                print(" | ".join([dato.center(25) for dato in fila]))
                                 asistencias_encontradas = True
                                 break
 
@@ -108,6 +123,7 @@ def mostrarSociosPorClase(archivoC, archivoS, archivoA, id_clase):
     except (FileNotFoundError, OSError) as e:
         print(f"Ocurrió un error: {e}")
         input("Presione una tecla para continuar.")
+
 
 
 
@@ -133,9 +149,14 @@ def mostrarAsistenciasPorInstructor(archivoC, archivoS, archivoI, archivoA, id_i
 
         if not instructor_encontrado:
             print("No se encontró el instructor con ese ID.")
+            input("Presione Enter para continuar...")
             return
 
-        print(f"\n=== Asistencias de las clases dictadas por {instructor_encontrado['Nombre']} {instructor_encontrado['Apellido']} ===\n")
+        print(f"\n========================================= Asistencias de las clases dictadas por {instructor_encontrado['Nombre']} {instructor_encontrado['Apellido']} ======================================== \n")
+        encabezados = ["Clase", "Dia", "Hora",  "Socio", "Fecha"]
+        print(" | " .join([e.center(25) for e in encabezados]))
+        print("-" * len(encabezados) * 27)
+
 
         clases_instructor = []
         for clase in clases:
@@ -144,6 +165,7 @@ def mostrarAsistenciasPorInstructor(archivoC, archivoS, archivoI, archivoA, id_i
 
         if len(clases_instructor) == 0:
             print("Este instructor no dicta ninguna clase.")
+            input("Presione Enter para continuar...")
             return
 
         with open(archivoA, 'r', encoding="UTF-8") as datosA:
@@ -161,7 +183,14 @@ def mostrarAsistenciasPorInstructor(archivoC, archivoS, archivoI, archivoA, id_i
                         if clase["IdClase"] == id_clase:
                             for s in socios:
                                 if s["IdSocio"] == id_socio:
-                                    print(f"Clase: {clase['NombreClase']} ({clase['Dia']} {clase['Hora']}) | Socio: {s['Nombre']} {s['Apellido']} | Fecha: {fecha}")
+                                    fila = [
+                                        clase["NombreClase"],
+                                        clase["Dia"],
+                                        clase["Hora"],
+                                        f"{s["Nombre"]} {s["Apellido"]}",
+                                        str(fecha)
+                                    ]
+                                    print(" | ".join([dato.center(25) for dato in fila]))
                                     asistencias_encontradas = True
                                     break
 
@@ -175,6 +204,7 @@ def mostrarAsistenciasPorInstructor(archivoC, archivoS, archivoI, archivoA, id_i
     except (FileNotFoundError, OSError) as e:
         print(f"Ocurrió un error: {e}")
         input("Presione una tecla para continuar.")
+
 
 
 
@@ -204,8 +234,17 @@ def registrarAsistencia(archivoC, archivoS, archivoA):
 
         print(f"\n=== Registrar Asistencia para {socio_encontrado['Nombre']} {socio_encontrado['Apellido']} ===\n")
         print("Clases disponibles:")
+        encabezados = ["ID", "Clase", "Dia", "Hora"]
+        print(" | " .join([e.center(25) for e in encabezados]))
+        print("-" * len(encabezados) * 27)
         for clase in clases:
-            print(f"- ID: {clase['IdClase']} | Nombre: {clase['NombreClase']} | Día: {clase['Dia']} | Hora: {clase['Hora']}")
+            fila = [
+                str(clase["IdClase"]),
+                clase["NombreClase"],
+                clase["Dia"],
+                clase["Hora"]
+            ]
+            print(" | ".join([dato.center(25) for dato in fila]))
 
         id_clase = int(input("\nIngrese el ID de la clase a la que asistió: "))
         clase_valida = validarClase(clases, id_clase)
@@ -239,6 +278,9 @@ def registrarAsistencia(archivoC, archivoS, archivoA):
         print(f"Ocurrió un error: {e}")
         input("Presione una tecla para continuar.")
     
+
+
+
 
 
 
