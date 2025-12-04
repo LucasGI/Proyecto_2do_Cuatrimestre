@@ -18,6 +18,7 @@ def crearSocio(archivo):
         id_socio = len(socios) + 1
         nombre = validarNombre()
         apellido=validarApellido()
+        gmail= nombre.lower()[0:1] + apellido.lower() + "@gmail.com"
         while True:
             fechaNac = input("Ingrese la fecha de la siguiente forma (dd/mm/aaaa): ")
             if validarFecha(fechaNac):
@@ -32,6 +33,7 @@ def crearSocio(archivo):
             "IdSocio": id_socio,
             "Nombre": nombre,
             "Apellido": apellido,
+            "Gmail": gmail,
             "FechaNac": fechaNac,
             "TipoAbono": abono,
             "EstadoPago": estado,
@@ -126,7 +128,7 @@ def mostrarSocios(archivo):
         with open(archivo, 'r', encoding="UTF-8") as datos:
             socios = json.load(datos)
 
-            encabezados = ["IdSocio", "Nombre", "Apellido", "FechaNac", "TipoAbono", "EstadoPago", "Activo"]
+            encabezados = ["IdSocio", "Nombre", "Apellido", "Gmail", "FechaNac", "TipoAbono", "EstadoPago", "Activo"]
             print(" | ".join([e.center(15) for e in encabezados]))
             print("-" * (len(encabezados) * 18))
 
@@ -136,6 +138,7 @@ def mostrarSocios(archivo):
                         str(socio["IdSocio"]),
                         socio["Nombre"],
                         socio["Apellido"],
+                        socio["Gmail"],
                         socio["FechaNac"],
                         socio["TipoAbono"],
                         socio["EstadoPago"],
@@ -208,3 +211,5 @@ def editarSocios(archivo, idSocio):
     except (FileNotFoundError, OSError) as error:
         print(f'Error {error}')
         input('Presione una tecla para continuar...')
+
+
