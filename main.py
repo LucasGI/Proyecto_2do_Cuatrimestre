@@ -90,8 +90,12 @@ def main():
                 
                     elif op == "3":
                         ordenarClasesPorHora("archivos/clases.json", True)
-                    else:
-                        op = input("Opcion no valida, reingrese: ")
+                    elif op == "4":
+                        dias_validos = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"]
+                        dia = validarOpcion("Seleccione un día: ", dias_validos)
+                        mostrarClasesPorDia("archivos/clases.json", dia)
+                else:
+                    op = input("Opcion no valida, reingrese: ")
 
             elif op == "5":
                 op = menuEstadisticas()

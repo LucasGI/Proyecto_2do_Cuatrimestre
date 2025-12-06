@@ -1,6 +1,7 @@
 from menus import *
 from funcionesValidacion import *
 import json
+from functools import reduce
 #--------------------- Funciones relacionadas a la entidad Clases ------------------------
 
 
@@ -264,3 +265,37 @@ def ordenarClasesPorHora(archivo, orden):
         input("presione una tecla para continuar: ")
 
 
+def mostrarClasesPorDia(archivo, dia):
+    """
+    Muestra todas las clases de un día específico utilizando lambda y reduce.
+    """
+    clear()
+    try:
+        with open(archivo, 'r', encoding="UTF-8") as datos:
+            clases = json.load(datos)
+
+        clases_del_dia = list(filter(lambda clase: clase["Dia"] == dia and clase["Activo"] == "Activo", clases))
+
+        if not clases_del_dia:
+            print(f"No hay clases disponibles para el día {dia}.")
+            input("Presione una tecla para continuar...")
+            return
+
+        print(f"\n=== Clases del {dia} ===\n")
+        encabezados = ["IdClase", "NombreClase", "Hora", "IdInstructor"]
+        print(" | ".join([e.center(20) for e in encabezados]))
+        print("-" * (len(encabezados) * 23))
+        for clase in clases_del_dia:
+            fila = [
+                str(clase["IdClase"]).center(20),
+                clase["NombreClase"].center(20),
+                clase["Hora"].center(20),
+                str(clase["IdInstructor"]).center(20)
+            ]
+            print(" | ".join(fila))
+        input("Presione una tecla para continuar...")
+    except (FileNotFoundError, OSError) as error:
+        print(f"Error! {error}")
+        input("Presione una tecla para continuar...")
+    
+mostrarClasesPorDia("archivos/clases.json", "Jueves")
