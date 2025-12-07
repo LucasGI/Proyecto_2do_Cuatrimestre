@@ -127,25 +127,26 @@ def mostrarSocios(archivo):
     try:
         with open(archivo, 'r', encoding="UTF-8") as datos:
             socios = json.load(datos)
-
+            
+            socios_activos = [s for s in socios if s["Activo"] == "Activo"]
+            socios_mayuscula= list(map(lambda i: {**i, "Nombre": i["Nombre"].capitalize(), "Apellido": i["Apellido"].capitalize()}, socios_activos))
             encabezados = ["IdSocio", "Nombre", "Apellido", "FechaNac", "TipoAbono", "EstadoPago", "Activo", "Gmail"]
-            print(" | ".join([e.center(14) for e in encabezados]))
-            print("-" * (len(encabezados) * 18))
+            print(" | ".join([e.center(15) for e in encabezados]))
+            print("-" * (len(encabezados) * 19))
 
-            for socio in socios:
-                if socio["Activo"] in ["Activo"]:
-                    fila = [
-                        str(socio["IdSocio"]),
-                        socio["Nombre"],
-                        socio["Apellido"],
-                        socio["FechaNac"],
-                        socio["TipoAbono"],
-                        socio["EstadoPago"],
-                        socio["Activo"],
-                        socio["Gmail"]
-                    ]
-                    print(" | ".join([dato.center(14) for dato in fila]))
-            input("Presione una tecla para continuar...")
+            list(map(lambda socio: print(" | ".join([
+            str(socio["IdSocio"]).center(15),
+            socio["Nombre"].center(15),
+            socio["Apellido"].center(15),
+            socio["FechaNac"].center(15),
+            socio["TipoAbono"].center(15),
+            socio["EstadoPago"].center(15),
+            socio["Activo"].center(15),
+            socio["Gmail"].center(15)
+        ])), socios_mayuscula))
+
+        print(f"Total de instructores activos: {len(socios_mayuscula)}")
+        input("Presione una tecla para continuar...")
         
     except (FileNotFoundError, OSError) as error:
         print(f'Error! {error}')
@@ -213,3 +214,4 @@ def editarSocios(archivo, idSocio):
         input('Presione una tecla para continuar...')
 
 
+mostrarSocios("archivos/socios.json")

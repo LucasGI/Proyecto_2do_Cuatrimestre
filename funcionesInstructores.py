@@ -114,28 +114,33 @@ def darAltaInstructor(archivo, idInstructor):
 mostrarInstructores recibe por parametro la lista de diccionarios 'instructores' y printea por orden de legajo la lista completa de instructores,solo activos
 """
 def mostrarInstructores(archivo):
+    """
+    Muestra todos los instructores activos con nombres en MAYÚSCULAS usando map y lambda.
+    """
     clear()
     try:
         with open(archivo, 'r', encoding="UTF-8") as datos:
             instructores = json.load(datos)
         
+        instructores_activos = [i for i in instructores if i["Activo"] == "Activo"]
+        
+        instructores_mayuscula= list(map(lambda i: {**i, "Nombre": i["Nombre"].capitalize(), "Apellido": i["Apellido"].capitalize()}, instructores_activos))
+        
         encabezados = ["IdInstructor", "Nombre", "Apellido", "FechaNac", "Activo"]
         print(" | ".join([e.center(15) for e in encabezados]))
         print("-" * (len(encabezados) * 18))
 
-        for instructor in instructores:
-            if instructor["Activo"] in ["Activo"]:
-                fila = [
-                    str(instructor["IdInstructor"]),
-                    instructor["Nombre"],
-                    instructor["Apellido"],
-                    instructor["FechaNac"],
-                    instructor["Activo"]
-                ]
-                print(" | ".join([dato.center(15) for dato in fila]))
+        list(map(lambda instructor: print(" | ".join([
+            str(instructor["IdInstructor"]).center(15),
+            instructor["Nombre"].center(15),
+            instructor["Apellido"].center(15),
+            instructor["FechaNac"].center(15),
+            instructor["Activo"].center(15)
+        ])), instructores_mayuscula))
 
+        print(f"Total de instructores activos: {len(instructores_mayuscula)}")
         input("Presione una tecla para continuar...")
-    
+
     except (FileNotFoundError, OSError) as error:
         print(f'Error! {error}')
         input("Presione una tecla para continuar.")
@@ -244,3 +249,57 @@ def mostrarInstructoresOrdenado(archivo, instructores=None, indice=0):
         print(" | ".join([dato.center(15) for dato in fila]))
         # Llamada recursiva para el siguiente
         mostrarInstructoresOrdenado(archivo, instructores, indice + 1)
+
+def mostrarInstructoresOcupadosYDesocupados(archivoC, archivoI):
+    """
+    Muestra instructores ocupados y desocupados usando conjuntos.
+    """
+    clear()
+    try:
+        with open(archivoC, 'r', encoding="UTF-8") as datosC:
+            clases = json.load(datosC)
+        
+        with open(archivoI, 'r', encoding="UTF-8") as datosI:
+            instructores = json.load(datosI)
+        
+        # lo pasamos a int porque el id instructor en clases lo tenemos como str 
+        instructores_ocupados = {int(clase["IdInstructor"]) for clase in clases if clase["Activo"] == "Activo"}
+        instructores_activos_ids = {i["IdInstructor"] for i in instructores if i["Activo"] == "Activo"}
+        instructores_desocupados = instructores_activos_ids - instructores_ocupados
+
+        encabezados = ["IdInstructor", "Nombre", "Apellido", "FechaNac"]
+        print("\n=== Instructores Ocupados ===\n")
+        print(" | ".join([e.center(15) for e in encabezados]))
+        print("-" * (len(encabezados) * 18))
+        
+        instructores_ocupados_datos = [i for i in instructores if i["IdInstructor"] in instructores_ocupados]
+        
+        list(map(lambda instructor: print(" | ".join([
+            str(instructor["IdInstructor"]).center(15),
+            instructor["Nombre"].center(15),
+            instructor["Apellido"].center(15),
+            instructor["FechaNac"].center(15)
+        ])), instructores_ocupados_datos))
+        print(f"Total ocupados: {len(instructores_ocupados_datos)}")
+        
+        print("\n=== Instructores Desocupados ===\n")
+        print(" | ".join([e.center(15) for e in encabezados]))
+        print("-" * (len(encabezados) * 18))
+        
+        instructores_desocupados_datos = [i for i in instructores if i["IdInstructor"] in instructores_desocupados]
+        
+        list(map(lambda instructor: print(" | ".join([
+            str(instructor["IdInstructor"]).center(15),
+            instructor["Nombre"].center(15),
+            instructor["Apellido"].center(15),
+            instructor["FechaNac"].center(15)
+        ])), instructores_desocupados_datos))
+        
+        print(f"Total desocupados: {len(instructores_desocupados_datos)}")
+        input("Presione una tecla para continuar...")
+
+    except (FileNotFoundError, OSError) as error:
+        print(f'Error! {error}')
+        input("Presione una tecla para continuar.")
+
+mostrarInstructoresOcupadosYDesocupados('archivos/clases.json', "archivos/instructores.json")

@@ -119,34 +119,34 @@ def darAltaClase(archivo, idClase):
 
 def mostrarClases(archivo):
     """
-    mostrarClases recibe por parametro la lista de diccionarios 'clases' y printea por orden de legajo la lista completa de clases, tanto
-    inactivos como activos
+    mostrarClases recibe por parametro la lista de diccionarios 'clases' y printea por orden de legajo la lista completa de clases activas
+    utilizando map y lambda.
     """
     clear()
     try:
         with open(archivo, 'r', encoding="UTF-8") as datos:
             clases = json.load(datos)
-            encabezados = ["IdClase", "NombreClase", "Dia", "Hora", "IdInstructor", "Activo"]
-            print(" | ".join([e.center(15) for e in encabezados]))
-            print("-" * (len(encabezados) * 18))
+        
+        clases_activas = list(filter(lambda clase: clase["Activo"] == "Activo", clases)) 
+        encabezados = ["IdClase", "NombreClase", "Dia", "Hora", "IdInstructor", "Activo"]
+        print(" | ".join([e.center(15) for e in encabezados]))
+        print("-" * (len(encabezados) * 18))
 
-            for clase in clases:
-                if clase["Activo"] == "Activo":
-                    fila = [
-                        str(clase["IdClase"]).center(15),
-                        clase["NombreClase"].center(15),
-                        clase["Dia"].center(15),
-                        clase["Hora"].center(15),
-                        str(clase["IdInstructor"]).center(15),
-                        clase["Activo"].center(15)
-                    ]
-                    print(" | ".join(fila))
+        list(map(lambda clase: print(" | ".join([
+            str(clase["IdClase"]).center(15),
+            clase["NombreClase"].center(15),
+            clase["Dia"].center(15),
+            clase["Hora"].center(15),
+            str(clase["IdInstructor"]).center(15),
+            clase["Activo"].center(15)
+        ])), clases_activas))
 
-            input('Presione una tecla para continuar...')
+        print(f"Total de clases activas: {len(clases_activas)}")
+        input('Presione una tecla para continuar...')
 
     except (FileNotFoundError, OSError) as error:
         print(f'Error! {error}')
-
+        input('Presione una tecla para continuar...')
 
 
 
@@ -298,4 +298,3 @@ def mostrarClasesPorDia(archivo, dia):
         print(f"Error! {error}")
         input("Presione una tecla para continuar...")
     
-mostrarClasesPorDia("archivos/clases.json", "Jueves")
