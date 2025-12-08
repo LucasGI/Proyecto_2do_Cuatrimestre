@@ -131,7 +131,7 @@ def cantidadAsistenciaPorClase(archivoC, archivoA):
 
         for clase in clases:
             id_clase = clase["IdClase"]
-            nombre_clase = f"{clase["NombreClase"]}  ({clase["Dia"]} {clase["Hora"]})"
+            nombre_clase = f"{clase['NombreClase']}  ({clase['Dia']} {clase['Hora']})"
             contador = 0
 
             with open(archivoA, 'r', encoding="UTF-8") as archivo:

@@ -194,7 +194,12 @@ def editarSocios(archivo, idSocio):
                     print("Tipo de abono modificado con éxito.")
 
                 elif campo==4:
-                    fechaNac=validarFecha()
+                    while True:
+                        fecha = input("Ingrese la fecha de asistencia (dd/mm/yyyy): ")
+                        if validarFecha(fecha):
+                            return fecha
+                        else:
+                            print("Fecha inválida. Intente nuevamente con formato dd/mm/yyyy.\n")
                     socio["FechaNac"] = fechaNac
                     print("Fecha de nacimiento modificada con exito")
 
@@ -214,4 +219,3 @@ def editarSocios(archivo, idSocio):
         input('Presione una tecla para continuar...')
 
 
-mostrarSocios("archivos/socios.json")

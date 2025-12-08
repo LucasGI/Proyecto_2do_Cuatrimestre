@@ -3,7 +3,7 @@ from funcionesValidacion import *
 import json
 from functools import reduce
 #--------------------- Funciones relacionadas a la entidad Clases ------------------------
-
+from functools import reduce
 
 
 
@@ -274,7 +274,7 @@ def mostrarClasesPorDia(archivo, dia):
         with open(archivo, 'r', encoding="UTF-8") as datos:
             clases = json.load(datos)
 
-        clases_del_dia = list(filter(lambda clase: clase["Dia"] == dia and clase["Activo"] == "Activo", clases))
+        clases_del_dia = reduce(lambda acu, clase: acu + [clase] if clase["Dia"] == dia and clase["Activo"] == "Activo" else acu, clases, [])
 
         if not clases_del_dia:
             print(f"No hay clases disponibles para el día {dia}.")
@@ -297,4 +297,5 @@ def mostrarClasesPorDia(archivo, dia):
     except (FileNotFoundError, OSError) as error:
         print(f"Error! {error}")
         input("Presione una tecla para continuar...")
-    
+
+

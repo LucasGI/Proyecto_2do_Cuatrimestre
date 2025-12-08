@@ -184,7 +184,13 @@ def editarInstructor(archivo, idInstructor):
                     instructor["Apellido"] = apellido
                     print("Apellido modificado con éxito.")
                 elif campo == 3:
-                    fechaNac=validarFecha()
+                    while True:
+                        fechaNac = input("Ingrese la fecha de nacimiento (dd/mm/yyyy): ")
+                        if validarFecha(fechaNac):
+                            break
+                        else:
+                            print("Fecha inválida. Intente nuevamente con formato dd/mm/yyyy.\n")
+
                     instructor["FechaNac"] = fechaNac
                     print("Fecha de nacimiento modificada con éxito.")
 
@@ -302,4 +308,3 @@ def mostrarInstructoresOcupadosYDesocupados(archivoC, archivoI):
         print(f'Error! {error}')
         input("Presione una tecla para continuar.")
 
-mostrarInstructoresOcupadosYDesocupados('archivos/clases.json', "archivos/instructores.json")

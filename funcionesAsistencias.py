@@ -106,7 +106,7 @@ def mostrarSociosPorClase(archivoC, archivoS, archivoA, id_clase):
                         for socio in socios:
                             if socio["IdSocio"] == id_socio:
                                 fila = [
-                                    f"{socio["Nombre"]} {socio["Apellido"]}",
+                                    f"{socio['Nombre']} {socio['Apellido']}",
                                     str(fecha)
                                 ]
                                 print(" | ".join([dato.center(25) for dato in fila]))
@@ -187,7 +187,7 @@ def mostrarAsistenciasPorInstructor(archivoC, archivoS, archivoI, archivoA, id_i
                                         clase["NombreClase"],
                                         clase["Dia"],
                                         clase["Hora"],
-                                        f"{s["Nombre"]} {s["Apellido"]}",
+                                        f"{s['Nombre']} {s['Apellido']}",
                                         str(fecha)
                                     ]
                                     print(" | ".join([dato.center(25) for dato in fila]))
@@ -253,7 +253,12 @@ def registrarAsistencia(archivoC, archivoS, archivoA):
             input("Presione Enter para continuar...")
             return
 
-        fecha_asistencia=validarFecha()
+        while True:
+            fecha = input("Ingrese la fecha de asistencia (dd/mm/yyyy): ")
+            if validarFecha(fecha):
+                return fecha
+            else:
+                print("Fecha inválida. Intente nuevamente con formato dd/mm/yyyy.\n")
     
         nueva_id_asistencia = 1
         try:

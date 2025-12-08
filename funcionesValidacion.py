@@ -80,31 +80,34 @@ def esClaseDisponible(archivo):
 
             
 def validarSocio(diccionario, id):
-    for socio in diccionario:
-        if id == socio["IdSocio"] and socio["Activo"] == "Activo":
-            return True
-    else:
-        return False
-    
-def validarClase(diccionario, id):
-    for clase in diccionario:
-        if id == clase["IdClase"] and clase["Activo"] == "Activo":
-            return True
-    else:
-        return False
-    
-def validarInstructor(diccionario, id):
-    for instructor in diccionario:
-        if id == instructor["IdInstructor"] and instructor["Activo"] == "Activo":
-            return True
+    encontrado = list(filter(lambda s: s["IdSocio"] == id and s["Activo"] == "Activo", diccionario))
+
+    if len(encontrado) > 0:
+        return True
     else:
         return False
 
+
+def validarClase(diccionario, id):
+    encontrado = list(filter(lambda c: c["IdClase"] == id and c["Activo"] == "Activo", diccionario))
+
+    if len(encontrado) > 0:
+        return True
+    else:
+        return False
+
+def validarInstructor(diccionario, id):
+    encontrado = list(filter(lambda i: i["IdInstructor"] == id and i["Activo"] == "Activo", diccionario))
+
+    if len(encontrado) > 0:
+        return True
+    else:
+        return False
 
 def validarFecha(fecha):
 
     patron = r'^\d{2}/\d{2}/\d{4}$'
-    
+
     if not re.match(patron, fecha):
         return False
     
@@ -129,3 +132,5 @@ def validarApellido():
             return apellido
         else:
             print("Error, el apellido solo debe contener letras.")
+
+
