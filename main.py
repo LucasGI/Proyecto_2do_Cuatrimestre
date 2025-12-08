@@ -60,6 +60,10 @@ def main():
                     editarInstructor("archivos/instructores.json", id_instructor)
                 elif op == "4":
                     mostrarInstructores("archivos/instructores.json")
+                elif op == "5":
+                    mostrarInstructoresOrdenado("archivos/instructores.json")
+                elif op == "6":
+                    mostrarInstructoresOcupadosYDesocupados("archivos/clases.json", "archivos/instructores.json")
                 elif op == "0":
                     flag_seguir = False
 

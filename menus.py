@@ -52,6 +52,8 @@ def menuInstructores():
     print("2. Alta/Baja Instructores")
     print("3. Modificar Instructores")
     print("4. Mostrar Instructores")
+    print("5. Mostrar Instructores ordenados")
+    print("6. Mostrar instructores ocupados y desocupados")
     print("0. Salir")
     op = input("Seleccione una opcion: ")
     return op
@@ -99,7 +101,7 @@ def menuEstadisticas():
     print("\n=== Menu Estadisticas ===")
     print("1. Cantidad de socios por tipo de abono")
     print("2. Cantidad de asistencias por clase")
-    print("3. Promedio de socios activos e inactivos")
+    print("3. Porcentaje de socios activos e inactivos")
     print("4. Cantidad de clases por instructor")
     print("5. Cantidad Asistencias por socio")
     print("0. Salir")

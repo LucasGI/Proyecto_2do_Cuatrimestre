@@ -204,9 +204,6 @@ def editarInstructor(archivo, idInstructor):
 
                 input("Presione una tecla para continuar...")
                 break
-
-
-
     except (FileNotFoundError, OSError) as error:
         print(f'Error {error}')
         input('Presione una tecla para continuar...')
