@@ -135,17 +135,14 @@ def cantidadAsistenciaPorClase(archivoC, archivoA):
             contador = 0
 
             with open(archivoA, 'r', encoding="UTF-8") as archivo:
-                linea = archivo.readline()
 
-                while linea != "":
+                for linea in archivo:
                     partes = linea.strip().split()
 
                     if len(partes) >= 4:
                         id_clase_archivo = int(partes[1]) 
                         if id_clase_archivo == id_clase:
                             contador += 1
-
-                    linea = archivo.readline()
 
             fila = [
                 nombre_clase,
@@ -161,6 +158,10 @@ def cantidadAsistenciaPorClase(archivoC, archivoA):
 
 
 
+
+
+
+
 def cantidadAsistenciasPorSocioRecursivo(archivoS, archivoA, indice=0, socios=None, asistencias=None):
     """
     Calcula recursivamente la cantidad de asistencias por cada socio.
@@ -171,8 +172,10 @@ def cantidadAsistenciasPorSocioRecursivo(archivoS, archivoA, indice=0, socios=No
             with open(archivoS, 'r', encoding="UTF-8") as datosS:
                 socios = json.load(datosS)
 
+            asistencias = []
             with open(archivoA, 'r', encoding="UTF-8") as datosA:
-                asistencias = datosA.readlines()
+                for linea in datosA:
+                    asistencias.append(linea)
 
             print("========= Cantidad de asistencias por socio  ========= \n")
             encabezados = ["Socio", "Total Asistencias"]
@@ -204,4 +207,3 @@ def cantidadAsistenciasPorSocioRecursivo(archivoS, archivoA, indice=0, socios=No
     except (FileNotFoundError, OSError) as error:
         print(f'Error! {error}')
         input("Presione una tecla para continuar.")
-

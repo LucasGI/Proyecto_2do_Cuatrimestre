@@ -30,13 +30,13 @@ def mostrarClasesPorSocio(archivoC, archivoS, archivoA, id_socio):
         print(" | " .join([e.center(25) for e in encabezados]))
         print("-" * len(encabezados) * 27)
 
+
         with open(archivoA, 'r', encoding="UTF-8") as datos:
-            lineas = datos.readline()
-            
             asistencias_encontradas = False
 
-            while lineas != "":
-                partes = lineas.strip().split()
+            for linea in datos:                    
+                partes = linea.strip().split()
+
                 if len(partes) == 4:
                     id_clase = int(partes[1])
                     fecha = partes[2]
@@ -53,7 +53,6 @@ def mostrarClasesPorSocio(archivoC, archivoS, archivoA, id_socio):
                                 print(" | ".join([dato.center(25) for dato in fila]))
                                 asistencias_encontradas = True
                                 break
-                lineas = datos.readline()
 
             if not asistencias_encontradas:
                 print("El socio no tiene asistencias registradas.") 
@@ -64,6 +63,16 @@ def mostrarClasesPorSocio(archivoC, archivoS, archivoA, id_socio):
     except (FileNotFoundError, OSError) as error:
         print(f'Error! {error}')
         input("Presione una tecla para continuar.")
+
+
+
+
+
+
+
+
+
+
 
 def mostrarSociosPorClase(archivoC, archivoS, archivoA, id_clase):
     clear()
@@ -92,10 +101,9 @@ def mostrarSociosPorClase(archivoC, archivoS, archivoA, id_clase):
         print("-" * len(encabezados) * 27)
 
         with open(archivoA, 'r', encoding="UTF-8") as datosA:
-            linea = datosA.readline()
             asistencias_encontradas = False
 
-            while linea != "":
+            for linea in datosA:
                 partes = linea.strip().split()
                 if len(partes) == 4:
                     id_clase_archivo = int(partes[1])
@@ -113,8 +121,6 @@ def mostrarSociosPorClase(archivoC, archivoS, archivoA, id_clase):
                                 asistencias_encontradas = True
                                 break
 
-                linea = datosA.readline()
-
         if not asistencias_encontradas:
             print("No hay socios registrados en esta clase.")
         
@@ -123,6 +129,9 @@ def mostrarSociosPorClase(archivoC, archivoS, archivoA, id_clase):
     except (FileNotFoundError, OSError) as e:
         print(f"Ocurrió un error: {e}")
         input("Presione una tecla para continuar.")
+
+
+
 
 
 
@@ -169,10 +178,9 @@ def mostrarAsistenciasPorInstructor(archivoC, archivoS, archivoI, archivoA, id_i
             return
 
         with open(archivoA, 'r', encoding="UTF-8") as datosA:
-            linea = datosA.readline()
             asistencias_encontradas = False
 
-            while linea != "":
+            for linea in datosA:
                 partes = linea.strip().split()
                 if len(partes) == 4:
                     id_clase = int(partes[1])
@@ -194,8 +202,6 @@ def mostrarAsistenciasPorInstructor(archivoC, archivoS, archivoI, archivoA, id_i
                                     asistencias_encontradas = True
                                     break
 
-                linea = datosA.readline()
-
         if not asistencias_encontradas:
             print("No hay asistencias registradas para este instructor.")
         
@@ -204,8 +210,6 @@ def mostrarAsistenciasPorInstructor(archivoC, archivoS, archivoI, archivoA, id_i
     except (FileNotFoundError, OSError) as e:
         print(f"Ocurrió un error: {e}")
         input("Presione una tecla para continuar.")
-
-
 
 
 
@@ -256,34 +260,27 @@ def registrarAsistencia(archivoC, archivoS, archivoA):
         while True:
             fecha = input("Ingrese la fecha de asistencia (dd/mm/yyyy): ")
             if validarFecha(fecha):
-                return fecha
+                nueva_id_asistencia = 1
+                try:
+                    with open(archivoA, 'r', encoding="UTF-8") as archivo:
+                        ultima_linea = ""
+                        for linea in archivo:
+                            ultima_linea = linea.strip()
+                        if ultima_linea:
+                            partes = ultima_linea.split()
+                            nueva_id_asistencia = int(partes[0]) + 1
+                except FileNotFoundError:
+                    nueva_id_asistencia = 1
+                with open(archivoA, 'a', encoding="UTF-8") as datosA:
+                    datosA.write(f"{nueva_id_asistencia}   {id_clase}   {fecha}   {id_socio}\n")
+                return input("Asistencia registrada con éxito. Presione Enter para continuar...")
             else:
                 print("Fecha inválida. Intente nuevamente con formato dd/mm/yyyy.\n")
-    
-        nueva_id_asistencia = 1
-        try:
-            with open(archivoA, 'r', encoding="UTF-8") as archivo:
-                ultima_linea = ""
-                linea = archivo.readline()
-                while linea:
-                    ultima_linea = linea.strip()
-                    linea = archivo.readline()
-                if ultima_linea:
-                    partes = ultima_linea.split()
-                    nueva_id_asistencia = int(partes[0]) + 1
-        except FileNotFoundError:
-            nueva_id_asistencia = 1
-
-
-        with open(archivoA, 'a', encoding="UTF-8") as datosA:
-            datosA.write(f"{nueva_id_asistencia}   {id_clase}   {fecha_asistencia}   {id_socio}\n")
-        input("Asistencia registrada con éxito. Presione Enter para continuar...")
 
     except (FileNotFoundError, OSError) as e:
         print(f"Ocurrió un error: {e}")
         input("Presione una tecla para continuar.")
     
-
 
 
 
@@ -295,30 +292,25 @@ def anularAsistencia(archivoA):
         print("=== Lista de asistencias registradas ===\n")
         with open(archivoA, 'r', encoding="UTF-8") as archivo:
             existe = False
-            linea = archivo.readline()
-            while linea:
+            for linea in archivo:
                 if linea.strip():
                     print(linea.strip())
                     existe = True
-                linea = archivo.readline()
             
         if not existe:
             print("No hay asistencias registradas.")
             input("Presione Enter para continuar...")
             return
 
-       
         id_anular = input("\nIngrese el ID de la asistencia a anular: ")
 
         
         with open(archivoA, 'r', encoding="UTF-8") as archivo:
             lineas_restantes = []
-            linea = archivo.readline()
-            while linea:
+            for linea in archivo:   
                 partes = linea.strip().split()
                 if partes and partes[0] != id_anular:
                     lineas_restantes.append(linea)
-                linea = archivo.readline()
 
         
         with open(archivoA, 'w', encoding="UTF-8") as archivo:
@@ -336,15 +328,18 @@ def anularAsistencia(archivoA):
 
 
 
+
+
+
+
 def editarAsistencia(archivo, idAsistencia):
     clear()
     try:
         with open(archivo, 'r', encoding="UTF-8") as datos:
             lineas = []
-            linea = datos.readline()
             encontrado = False
 
-            while linea:
+            for linea in datos:
                 partes = linea.strip().split()
                 if len(partes) == 4 and partes[0] == str(idAsistencia):
                     encontrado = True
@@ -370,7 +365,6 @@ def editarAsistencia(archivo, idAsistencia):
                 else:
                     lineas.append(linea)
                 
-                linea = datos.readline()
 
         if not encontrado:
             print("\nNo se encontró una asistencia con ese ID.")
@@ -384,6 +378,11 @@ def editarAsistencia(archivo, idAsistencia):
         print(f"Error! {error}")
         input("Presione una tecla para continuar...")
     
+
+
+
+
+
 
 
 def mostrarAsistencias(archivoA, archivoC, archivoS):
@@ -403,10 +402,9 @@ def mostrarAsistencias(archivoA, archivoC, archivoS):
         print("-" * (len(encabezados) * 23))
 
         with open(archivoA, 'r', encoding="UTF-8") as archivoA:
-            linea = archivoA.readline()
             hay_asistencias = False
 
-            while linea != "":
+            for linea in archivoA:
                 partes = linea.strip().split()
                 if len(partes) == 4:
                     id_asistencia = partes[0]
@@ -435,7 +433,6 @@ def mostrarAsistencias(archivoA, archivoC, archivoS):
                     print(" | ".join(fila))
                     hay_asistencias = True
 
-                linea = archivoA.readline()
 
             if not hay_asistencias:
                 print("No hay asistencias registradas.")
