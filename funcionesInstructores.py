@@ -305,3 +305,4 @@ def mostrarInstructoresOcupadosYDesocupados(archivoC, archivoI):
         print(f'Error! {error}')
         input("Presione una tecla para continuar.")
 
+ 

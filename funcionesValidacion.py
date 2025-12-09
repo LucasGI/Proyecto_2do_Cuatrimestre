@@ -120,7 +120,7 @@ def validarFecha(fecha):
 def validarNombre():
     while True:
         nombre = input("Ingrese el nuevo nombre: ")
-        if re.fullmatch(r"[A-Za-z]+", nombre):
+        if re.match(r"[A-Za-z]+$", nombre):
             return nombre
         else:
             print("Error, el nombre solo debe contener letras.")
@@ -128,7 +128,7 @@ def validarNombre():
 def validarApellido():
     while True:
         apellido = input("Ingrese el nuevo apellido: ")
-        if re.fullmatch(r"[A-Za-z]+", apellido):
+        if re.match(r"[A-Za-z]+$", apellido):
             return apellido
         else:
             print("Error, el apellido solo debe contener letras.")

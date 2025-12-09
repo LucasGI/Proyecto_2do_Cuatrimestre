@@ -158,10 +158,6 @@ def cantidadAsistenciaPorClase(archivoC, archivoA):
 
 
 
-
-
-
-
 def cantidadAsistenciasPorSocioRecursivo(archivoS, archivoA, indice=0, socios=None, asistencias=None):
     """
     Calcula recursivamente la cantidad de asistencias por cada socio.
@@ -207,3 +203,4 @@ def cantidadAsistenciasPorSocioRecursivo(archivoS, archivoA, indice=0, socios=No
     except (FileNotFoundError, OSError) as error:
         print(f'Error! {error}')
         input("Presione una tecla para continuar.")
+
